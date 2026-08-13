@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kyambu Resort | Eco-Luxury Sanctuary near Sempaya Hot Springs &amp; Semuliki</title>
+  <meta name="description" content="Welcome to Kyambu Resort, a new eco-luxury retreat in Bundibugyo offering accommodation, fine dining, and guided tours to Sempaya Hot Springs &amp; Semuliki National Park." />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toastNotif">
+    <span class="toast-icon">🌿</span>
+    <span class="toast-msg" id="toastMsg">Rainforest soundscape enabled</span>
+  </div>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top" title="Back to top">↑</button>
+
+  <!-- Ambient Audio Indicator / Control floating element -->
+  <div class="audio-control-fixed" id="audioToggleBtn" title="Toggle Rainforest Soundscape Audio">
+    <span class="audio-waves">
+      <span></span><span></span><span></span>
+    </span>
+    <span class="audio-label" id="audioLabel">Rainforest Ambient Off</span>
+    <div class="volume-slider-wrap" id="volumeSliderWrap">
+      <input type="range" id="volumeSlider" min="0" max="100" value="60" class="volume-slider" />
+    </div>
+  </div>
+
+  <!-- Header / Navigation -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="brand-logo">
+        <div class="logo-mark">
+          <svg viewBox="0 0 100 100" class="logo-svg">
+            <circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="3"/>
+            <path d="M50 18 L72 55 L28 55 Z" fill="none" stroke="currentColor" stroke-width="3"/>
+            <path d="M50 32 L64 55 L36 55 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M22 68 Q50 60 78 68" fill="none" stroke="currentColor" stroke-width="3"/>
+            <path d="M25 78 Q50 72 75 78" fill="none" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          <span class="brand-title">Kyambu</span>
+          <span class="brand-subtitle">RESORT • BUNDIBUGYO</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#about" class="nav-link" data-section="about">About</a>
+        <a href="#accommodations" class="nav-link" data-section="accommodations">Accommodations</a>
+        <a href="#experiences" class="nav-link" data-section="experiences">Sempaya &amp; Semuliki</a>
+        <a href="#dining" class="nav-link" data-section="dining">Dining</a>
+        <a href="#location" class="nav-link" data-section="location">Location</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="btn btn-primary" id="openBookingHeaderBtn">Book Your Stay</button>
+        <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section" id="hero">
+    <div class="hero-bg-container">
+      <img src="/images/hero.png" alt="Kyambu Resort Eco Lodge Canopy" class="hero-bg-img" />
+      <div class="hero-overlay"></div>
+    </div>
+
+    <div class="hero-content">
+      <div class="badge-pill">
+        <span class="pill-dot"></span> Opening Soon in Bundibugyo • Near Sempaya Hot Springs
+      </div>
+
+      <h1 class="hero-title">Where Eco-Luxury Meets Nature's Wonder</h1>
+      <p class="hero-description">
+        Experience Uganda's premier rainforest sanctuary. Immerse yourself in refined comfort, organic farm-to-table cuisine, and unforgettable geothermal excursions.
+      </p>
+
+      <!-- Live Weather Bar -->
+      <div class="weather-strip">
+        <div class="weather-item">
+          <span class="weather-icon">☀️</span>
+          <span class="weather-val">26°C</span>
+          <span class="weather-lbl">Sempaya Valley</span>
+        </div>
+        <div class="weather-divider"></div>
+        <div class="weather-item">
+          <span class="weather-icon">♨️</span>
+          <span class="weather-val">103°C</span>
+          <span class="weather-lbl">Spring Thermal Water</span>
+        </div>
+        <div class="weather-divider"></div>
+        <div class="weather-item">
+          <span class="weather-icon">🌿</span>
+          <span class="weather-val">440+</span>
+          <span class="weather-lbl">Bird Species Nearby</span>
+        </div>
+      </div>
+
+      <!-- Hero Booking Bar -->
+      <div class="hero-search-bar">
+        <div class="search-field">
+          <label>Check-in</label>
+          <input type="date" id="heroCheckIn" />
+        </div>
+        <div class="search-field">
+          <label>Check-out</label>
+          <input type="date" id="heroCheckOut" />
+        </div>
+        <div class="search-field">
+          <label>Guests</label>
+          <select id="heroGuests">
+            <option value="1">1 Guest</option>
+            <option value="2" selected>2 Guests</option>
+            <option value="3">3 Guests</option>
+            <option value="4">4+ Guests (Family)</option>
+          </select>
+        </div>
+        <div class="search-field">
+          <label>Sanctuary Suite</label>
+          <select id="heroSuiteType">
+            <option value="cottage">Luxury Canopy Cottage</option>
+            <option value="suite">Deluxe Safari Suite</option>
+            <option value="villa">Executive Eco-Villa</option>
+          </select>
+        </div>
+        <button class="btn btn-gold btn-search" id="heroSearchBtn">
+          Check Rates
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about-section" id="about">
+    <div class="section-container">
+      <div class="about-grid">
+        <div class="about-text-col" data-animate="fade-up">
+          <span class="section-subtitle">THE KYAMBU EXPERIENCE</span>
+          <h2 class="section-title">A Gateway to Sempaya, Semuliki, and Bundibugyo</h2>
+          <p class="paragraph-lead">
+            Nestled on the verdant slopes of the Albertine Rift, Kyambu Resort offers a rare blend of secluded luxury and raw natural beauty.
+          </p>
+          <p class="paragraph-body">
+            Whether you are visiting to marvel at the boiling waters of Sempaya Hot Springs, track rare primates in Semuliki National Park, or explore the cocoa-rich heart of Bundibugyo, Kyambu Resort is your peaceful home in the rainforest.
+          </p>
+
+          <div class="about-features-list">
+            <div class="feature-item" data-animate="fade-up" data-delay="100">
+              <div class="feature-icon">🏡</div>
+              <div class="feature-text">
+                <h4>Private Eco Cottages</h4>
+                <p>Architecturally designed using native timber, stone, and floor-to-ceiling forest vistas.</p>
+              </div>
+            </div>
+            <div class="feature-item" data-animate="fade-up" data-delay="200">
+              <div class="feature-icon">🍲</div>
+              <div class="feature-text">
+                <h4>Fresh Culinary Offerings</h4>
+                <p>Delicious dining using locally sourced ingredients from Bundibugyo farms and regional produce.</p>
+              </div>
+            </div>
+            <div class="feature-item" data-animate="fade-up" data-delay="300">
+              <div class="feature-icon">♨️</div>
+              <div class="feature-text">
+                <h4>Sempaya Guided Excursions</h4>
+                <p>Private guided walks to male and female hot springs, boiling eggs in geothermal springs.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-media-col" data-animate="fade-left">
+          <div class="media-stack">
+            <img src="/images/cottage.png" alt="Canopy Cottage View" class="media-img img-main" />
+            <img src="/images/sempaya.png" alt="Sempaya Hot Springs Walkway" class="media-img img-secondary" />
+            <div class="floating-badge">
+              <span class="badge-num">100%</span>
+              <span class="badge-lbl">Eco-conscious &amp; Powered by Nature</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Accommodations Showcase -->
+  <section class="accommodations-section" id="accommodations">
+    <div class="section-container">
+      <div class="section-header text-center" data-animate="fade-up">
+        <span class="section-subtitle">SANCTUARY ACCOMMODATION</span>
+        <h2 class="section-title">Rest in Rainforest Luxury</h2>
+        <p class="section-desc">Designed to harmonise with the surrounding ecosystem without compromising on high-end comfort.</p>
+      </div>
+
+      <div class="cards-grid">
+        <!-- Card 1 -->
+        <div class="room-card" data-room-id="cottage" data-animate="fade-up" data-delay="0">
+          <div class="room-card-img-wrap">
+            <img src="/images/cottage.png" alt="Luxury Canopy Cottage" class="room-card-img" />
+            <span class="room-tag">Popular Choice</span>
+            <div class="room-quick-view" data-room="cottage">
+              <span>Quick View</span>
+            </div>
+          </div>
+          <div class="room-card-body">
+            <div class="room-meta">
+              <span class="room-capacity">👥 Up to 2 Guests</span>
+              <span class="room-size">📐 65 m²</span>
+            </div>
+            <h3 class="room-title">Luxury Canopy Cottage</h3>
+            <p class="room-desc">Elevated wooden villa with floor-to-ceiling jungle views, private veranda, open-air rainwater shower, and plush king bed.</p>
+            <div class="room-amenities">
+              <span>🌿 Forest Deck</span>
+              <span>🚿 Rainforest Shower</span>
+              <span>☕ Gourmet Coffee Bar</span>
+              <span>📶 High-Speed Wi-Fi</span>
+            </div>
+            <div class="room-card-footer">
+              <div class="room-price">
+                <span class="currency">$</span><span class="amount">180</span><span class="unit">/ night</span>
+              </div>
+              <div class="room-card-actions">
+                <button class="room-fav-btn" data-room="cottage" aria-label="Favourite cottage" title="Save to favourites">♡</button>
+                <button class="btn btn-outline view-room-btn" data-room="cottage">Explore Suite</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="room-card" data-room-id="suite" data-animate="fade-up" data-delay="100">
+          <div class="room-card-img-wrap">
+            <img src="/images/suite.png" alt="Deluxe Safari Suite" class="room-card-img" />
+            <span class="room-tag tag-gold">Extra Space</span>
+            <div class="room-quick-view" data-room="suite">
+              <span>Quick View</span>
+            </div>
+          </div>
+          <div class="room-card-body">
+            <div class="room-meta">
+              <span class="room-capacity">👥 Up to 3 Guests</span>
+              <span class="room-size">📐 85 m²</span>
+            </div>
+            <h3 class="room-title">Deluxe Safari Suite</h3>
+            <p class="room-desc">Spacious lounge area, king bed, private outdoor soak tub overlooking the rift valley, and handcrafted teak furnishings.</p>
+            <div class="room-amenities">
+              <span>🛁 Soak Tub</span>
+              <span>🍸 Minibar</span>
+              <span>🌅 Rift Valley Sunrise</span>
+              <span>🛎️ Private Concierge</span>
+            </div>
+            <div class="room-card-footer">
+              <div class="room-price">
+                <span class="currency">$</span><span class="amount">250</span><span class="unit">/ night</span>
+              </div>
+              <div class="room-card-actions">
+                <button class="room-fav-btn" data-room="suite" aria-label="Favourite suite" title="Save to favourites">♡</button>
+                <button class="btn btn-outline view-room-btn" data-room="suite">Explore Suite</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="room-card" data-room-id="villa" data-animate="fade-up" data-delay="200">
+          <div class="room-card-img-wrap">
+            <img src="/images/hero.png" alt="Executive Eco-Villa" class="room-card-img" />
+            <span class="room-tag tag-dark">Ultimate Privacy</span>
+            <div class="room-quick-view" data-room="villa">
+              <span>Quick View</span>
+            </div>
+          </div>
+          <div class="room-card-body">
+            <div class="room-meta">
+              <span class="room-capacity">👥 Up to 4 Guests</span>
+              <span class="room-size">📐 130 m²</span>
+            </div>
+            <h3 class="room-title">Executive Eco-Villa</h3>
+            <p class="room-desc">Two master bedrooms, private lounge, dining area, outdoor deck with fire pit, ideal for families or VIP travelers.</p>
+            <div class="room-amenities">
+              <span>🔥 Private Fire Pit</span>
+              <span>🛏️ 2 En-Suite Master Rooms</span>
+              <span>🍷 Welcome Champagne</span>
+              <span>🚗 Dedicated Shuttle</span>
+            </div>
+            <div class="room-card-footer">
+              <div class="room-price">
+                <span class="currency">$</span><span class="amount">380</span><span class="unit">/ night</span>
+              </div>
+              <div class="room-card-actions">
+                <button class="room-fav-btn" data-room="villa" aria-label="Favourite villa" title="Save to favourites">♡</button>
+                <button class="btn btn-outline view-room-btn" data-room="villa">Explore Suite</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sempaya & Semuliki Experiences -->
+  <section class="experiences-section" id="experiences">
+    <div class="section-container">
+      <div class="experience-header-grid" data-animate="fade-up">
+        <div>
+          <span class="section-subtitle">UNFORGETTABLE ADVENTURES</span>
+          <h2 class="section-title">Explore Sempaya &amp; Semuliki</h2>
+        </div>
+        <div>
+          <p class="section-desc">We curate bespoke excursions led by expert local guides to ensure your visit to Sempaya Hot Springs and Semuliki National Park is extraordinary.</p>
+        </div>
+      </div>
+
+      <div class="experiences-grid">
+        <div class="exp-card" data-animate="fade-up" data-delay="0">
+          <div class="exp-img-box">
+            <img src="/images/sempaya.png" alt="Sempaya Geothermal Hot Springs" />
+            <div class="exp-overlay-text">
+              <span class="exp-duration">⏱️ 3 - 4 Hours</span>
+              <h3>Sempaya Geothermal Thermal Walk</h3>
+            </div>
+          </div>
+          <div class="exp-content">
+            <p>Visit the famous male ('Nyasimbi') and female ('Nyamugaite') hot springs. Watch boiling thermal waters jet 2 meters high and enjoy traditional egg-boiling in the spring waters.</p>
+            <div class="exp-footer">
+              <span class="exp-tag">Guided Walking Tour</span>
+              <button class="btn-text open-exp-modal" data-exp="sempaya">Read Itinerary →</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="exp-card" data-animate="fade-up" data-delay="100">
+          <div class="exp-img-box">
+            <img src="/images/hero.png" alt="Semuliki Wildlife &amp; Birding Safari" />
+            <div class="exp-overlay-text">
+              <span class="exp-duration">⏱️ Half / Full Day</span>
+              <h3>Semuliki Wildlife &amp; Primate Safari</h3>
+            </div>
+          </div>
+          <div class="exp-content">
+            <p>Trek through Central African lowland rainforest habitat in East Africa. Home to De Brazza's monkeys, chimpanzees, forest elephants, and over 400 rare bird species.</p>
+            <div class="exp-footer">
+              <span class="exp-tag">Primate &amp; Birding</span>
+              <button class="btn-text open-exp-modal" data-exp="semuliki">Read Itinerary →</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="exp-card" data-animate="fade-up" data-delay="200">
+          <div class="exp-img-box">
+            <img src="/images/dining.png" alt="Bundibugyo Cultural &amp; Cocoa Tour" />
+            <div class="exp-overlay-text">
+              <span class="exp-duration">⏱️ 3 Hours</span>
+              <h3>Bundibugyo Cocoa &amp; Heritage Trail</h3>
+            </div>
+          </div>
+          <div class="exp-content">
+            <p>Discover Bundibugyo's famous cocoa farms, artisan chocolate processing, and authentic cultural performances by the Batwa and Bwamba communities.</p>
+            <div class="exp-footer">
+              <span class="exp-tag">Culture &amp; Culinary</span>
+              <button class="btn-text open-exp-modal" data-exp="cocoa">Read Itinerary →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dining Section -->
+  <section class="dining-section" id="dining">
+    <div class="section-container">
+      <div class="dining-grid">
+        <div class="dining-image-box" data-animate="fade-right">
+          <img src="/images/dining.png" alt="Gourmet Farm to Table Cuisine" class="dining-img" />
+          <div class="dining-badge-card">
+            <h4>Farm-to-Table Freshness</h4>
+            <p>Ingredients harvested daily from local Bundibugyo organic farms.</p>
+          </div>
+        </div>
+
+        <div class="dining-content-box" data-animate="fade-up">
+          <span class="section-subtitle">GASTRONOMY &amp; REFRESHMENT</span>
+          <h2 class="section-title">Kyambu Canopy Restaurant</h2>
+          <p class="paragraph-lead">Enjoy a culinary journey where traditional Ugandan flavours harmonize with modern global gastronomy.</p>
+          
+          <div class="menu-tabs">
+            <button class="menu-tab active" data-tab="breakfast">Breakfast</button>
+            <button class="menu-tab" data-tab="mains">Canopy Mains</button>
+            <button class="menu-tab" data-tab="drinks">Craft Cocktails</button>
+          </div>
+
+          <div class="menu-panel active" id="menu-breakfast">
+            <div class="menu-item">
+              <div class="item-head">
+                <span class="item-name">Kyambu Rainforest Sunrise Bowl</span>
+                <span class="item-price">$12</span>
+              </div>
+              <p class="item-desc">Fresh papaya, passion fruit, local wild honey, homemade granola, and Greek yogurt.</p>
+            </div>
+            <div class="menu-item">
+              <div class="item-head">
+                <span class="item-name">Bundibugyo Cocoa French Toast</span>
+                <span class="item-price">$14</span>
+              </div>
+              <p class="item-desc">Artisan brioche infused with dark organic cocoa, caramelised banana, and cinnamon cream.</p>
+            </div>
+          </div>
+
+          <div class="menu-panel" id="menu-mains">
+            <div class="menu-item">
+              <div class="item-head">
+                <span class="item-name">Grilled Lake Albert Tilapia</span>
+                <span class="item-price">$24</span>
+              </div>
+              <p class="item-desc">Fresh fillet marinated in lemongrass and garlic, served with cassava puree and steamed greens.</p>
+            </div>
+            <div class="menu-item">
+              <div class="item-head">
+                <span class="item-name">Slow-Roasted Rwenzori Herb Beef</span>
+                <span class="item-price">$28</span>
+              </div>
+              <p class="item-desc">Tender beef tenderloin rubbed with forest herbs, truffle jus, and roasted local sweet potatoes.</p>
+            </div>
+          </div>
+
+          <div class="menu-panel" id="menu-drinks">
+            <div class="menu-item">
+              <div class="item-head">
+                <span class="item-name">Sempaya Mist Infusion</span>
+                <span class="item-price">$10</span>
+              </div>
+              <p class="item-desc">Ugandan gin, fresh passion fruit puree, ginger brew, lime, and crushed mint leaves.</p>
+            </div>
+            <div class="menu-item">
+              <div class="item-head">
+                <span class="item-name">Bundibugyo Dark Cocoa Espresso</span>
+                <span class="item-price">$6</span>
+              </div>
+              <p class="item-desc">Single-origin Ugandan Arabica espresso blended with pure melted Bundibugyo dark cocoa.</p>
+            </div>
+          </div>
+
+          <div class="dining-cta">
+            <button class="btn btn-primary" id="openTableModalBtn">Reserve a Dining Table</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Location & Route Section -->
+  <section class="location-section" id="location">
+    <div class="section-container">
+      <div class="section-header text-center" data-animate="fade-up">
+        <span class="section-subtitle">TRAVEL GUIDE &amp; DIRECTIONS</span>
+        <h2 class="section-title">Getting to Kyambu Resort</h2>
+        <p class="section-desc">Located in Western Uganda along the scenic Fort Portal – Bundibugyo Road, right near Sempaya Hot Springs.</p>
+      </div>
+
+      <div class="location-grid">
+        <div class="location-cards" data-animate="fade-right">
+          <div class="route-card">
+            <div class="route-icon">🚗</div>
+            <div class="route-info">
+              <h4>From Fort Portal City</h4>
+              <p><strong>Distance:</strong> ~52 km (1.5 hours drive)</p>
+              <p>A paved scenic mountain drive over the northern Rwenzori foothills into the Semuliki valley.</p>
+            </div>
+          </div>
+
+          <div class="route-card">
+            <div class="route-icon">🚘</div>
+            <div class="route-info">
+              <h4>From Kampala Capital</h4>
+              <p><strong>Distance:</strong> ~340 km (5.5 - 6 hours drive)</p>
+              <p>Via Mubende – Fort Portal highway, followed by the Bundibugyo scenic road.</p>
+            </div>
+          </div>
+
+          <div class="route-card">
+            <div class="route-icon">✈️</div>
+            <div class="route-info">
+              <h4>Air Charter Transfer</h4>
+              <p>Direct chartered flights from Entebbe / Kajjansi to Kasese or Semuliki Airstrip, followed by resort shuttle.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="map-embed-box" data-animate="fade-left">
+          <iframe
+            src="https://www.openstreetmap.org/export/embed.html?bbox=29.95%2C0.63%2C30.25%2C0.85&layer=mapnik&marker=0.737%2C30.064"
+            class="osm-map-iframe"
+            title="Kyambu Resort location near Sempaya Hot Springs, Bundibugyo"
+            loading="lazy"
+          ></iframe>
+          <div class="map-info-strip">
+            <div class="map-strip-text">
+              <span class="map-title font-serif">Kyambu Resort</span>
+              <span class="map-address">Near Sempaya Hot Springs, Bundibugyo District</span>
+            </div>
+            <div class="map-strip-btns">
+              <a href="https://maps.google.com/?q=Sempaya+Hot+Springs,+Bundibugyo,+Uganda" target="_blank" class="btn btn-sm btn-gold">Open in Maps ↗</a>
+              <a href="https://www.instagram.com/kyamburesort/" target="_blank" class="btn btn-sm btn-outline">@kyamburesort ↗</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner Section -->
+  <section class="cta-banner">
+    <div class="section-container">
+      <div class="cta-content" data-animate="fade-up">
+        <h2 class="cta-title">Ready for an Eco-Luxury Escape?</h2>
+        <p class="cta-desc">Be among our pioneer guests as we open our doors in Bundibugyo. Special opening packages and early bird rates available now.</p>
+        <div class="cta-buttons">
+          <button class="btn btn-gold btn-lg" id="openBookingCtaBtn">Reserve Your Sanctuary</button>
+          <a href="https://www.instagram.com/kyamburesort/" target="_blank" class="btn btn-outline-light btn-lg">View Instagram @kyamburesort</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="section-container">
+      <div class="footer-grid">
+        <div class="footer-col brand-col">
+          <div class="brand-logo footer-logo">
+            <div class="logo-text">
+              <span class="brand-title">Kyambu</span>
+              <span class="brand-subtitle">RESORT • BUNDIBUGYO</span>
+            </div>
+          </div>
+          <p class="footer-about">
+            A brand new luxury eco-resort offering accommodation, fine dining, and guided hot spring excursions in Western Uganda.
+          </p>
+          <div class="social-links">
+            <a href="https://www.instagram.com/kyamburesort/" target="_blank" aria-label="Instagram">📸 Instagram (@kyamburesort)</a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="#about">Our Story</a></li>
+            <li><a href="#accommodations">Canopy Cottages</a></li>
+            <li><a href="#experiences">Sempaya Hot Springs</a></li>
+            <li><a href="#dining">Canopy Dining</a></li>
+            <li><a href="#location">Travel Guide</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Destinations</h4>
+          <ul>
+            <li>Sempaya Male &amp; Female Springs</li>
+            <li>Semuliki National Park</li>
+            <li>Bundibugyo Cocoa Estates</li>
+            <li>Rwenzori Northern Slopes</li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact &amp; Inquiries</h4>
+          <p>📍 Bundibugyo District, Uganda</p>
+          <p>📞 +256 (0) 770 000 000</p>
+          <p>✉️ info@kyamburesort.com</p>
+          <div class="opening-badge">Opening 2026 • Inquiries Open</div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Kyambu Resort. All Rights Reserved. Crafted with care for nature.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Booking Modal -->
+  <div class="modal-overlay" id="bookingModal">
+    <div class="modal-card">
+      <button class="modal-close" id="closeBookingModal">&times;</button>
+      <div class="modal-header">
+        <span class="section-subtitle">DIRECT RESERVATION ENGINE</span>
+        <h2 class="font-serif">Reserve Your Stay at Kyambu</h2>
+        <p>Complete your inquiry details to calculate your estimated stay and submit via WhatsApp or Email.</p>
+      </div>
+
+      <!-- Success Card (hidden until submit) -->
+      <div class="booking-success" id="bookingSuccess">
+        <div class="success-icon">✅</div>
+        <h3 class="font-serif">Inquiry Received!</h3>
+        <p>Thank you for your interest in Kyambu Resort. Our reservations team will contact you within 24 hours to confirm your stay details.</p>
+        <div id="successSummary" class="success-summary"></div>
+        <button class="btn btn-primary" id="successCloseBtn">Close</button>
+      </div>
+
+      <form id="bookingForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="modalFullName">Full Name *</label>
+            <input type="text" id="modalFullName" placeholder="e.g. Sarah Jenkins" required />
+            <span class="field-error" id="errName"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="modalEmail">Email Address *</label>
+            <input type="email" id="modalEmail" placeholder="sarah@example.com" required />
+            <span class="field-error" id="errEmail"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="modalPhone">WhatsApp / Phone *</label>
+            <input type="tel" id="modalPhone" placeholder="+256 700 000 000" required />
+            <span class="field-error" id="errPhone"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="modalSuite">Selected Accommodation</label>
+            <select id="modalSuite">
+              <option value="cottage" data-price="180">Luxury Canopy Cottage ($180/night)</option>
+              <option value="suite" data-price="250">Deluxe Safari Suite ($250/night)</option>
+              <option value="villa" data-price="380">Executive Eco-Villa ($380/night)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="modalCheckIn">Check-In Date *</label>
+            <input type="date" id="modalCheckIn" required />
+            <span class="field-error" id="errCheckIn"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="modalCheckOut">Check-Out Date *</label>
+            <input type="date" id="modalCheckOut" required />
+            <span class="field-error" id="errCheckOut"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="modalGuests">Guests Count</label>
+            <select id="modalGuests">
+              <option value="1">1 Guest</option>
+              <option value="2" selected>2 Guests</option>
+              <option value="3">3 Guests</option>
+              <option value="4">4 Guests</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="modalExcursion">Add Sempaya Excursion Package</label>
+            <select id="modalExcursion">
+              <option value="none" data-price="0">No excursion add-on</option>
+              <option value="sempaya" data-price="45">Sempaya Hot Springs Thermal Walk (+$45/guest)</option>
+              <option value="semuliki" data-price="75">Semuliki Primate &amp; Birding Safari (+$75/guest)</option>
+              <option value="full" data-price="110">Ultimate Bundibugyo &amp; Hot Springs Combo (+$110/guest)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="price-calculator-box">
+          <div class="calc-row">
+            <span>Nights Stay:</span>
+            <strong id="calcNights">3 Nights</strong>
+          </div>
+          <div class="calc-row">
+            <span>Accommodation Rate:</span>
+            <span id="calcAccCost">$540</span>
+          </div>
+          <div class="calc-row">
+            <span>Add-On Excursion Rate:</span>
+            <span id="calcExpCost">$90</span>
+          </div>
+          <div class="calc-divider"></div>
+          <div class="calc-row total-row">
+            <span>Estimated Total Stay:</span>
+            <strong id="calcTotalCost">$630 USD</strong>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-gold btn-full" id="submitWhatsappBtn">
+            📲 Submit Inquiry via WhatsApp
+          </button>
+          <button type="submit" class="btn btn-outline btn-full" id="submitEmailBtn">
+            ✉️ Submit via Email Inquiry
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Room Detail Modal -->
+  <div class="modal-overlay" id="roomModal">
+    <div class="modal-card modal-card-lg">
+      <button class="modal-close" id="closeRoomModal">&times;</button>
+      <div class="room-modal-grid">
+        <div class="room-modal-media">
+          <img src="" id="roomModalImg" alt="Room View" />
+        </div>
+        <div class="room-modal-content">
+          <span class="section-subtitle" id="roomModalSub">ACCOMMODATION DETAIL</span>
+          <h2 class="font-serif" id="roomModalTitle">Suite Name</h2>
+          <div class="room-modal-price" id="roomModalPrice">$180 / night</div>
+          <p class="room-modal-desc" id="roomModalDesc">Description text goes here...</p>
+          
+          <h4>Key Amenities Included:</h4>
+          <ul class="room-modal-list" id="roomModalList">
+            <!-- Dynamic JS items -->
+          </ul>
+
+          <div class="room-modal-btn-wrap">
+            <button class="btn btn-gold" id="roomModalBookBtn">Select This Suite &amp; Reserve</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Excursion Detail Modal -->
+  <div class="modal-overlay" id="excursionModal">
+    <div class="modal-card modal-card-lg">
+      <button class="modal-close" id="closeExcursionModal">&times;</button>
+      <div class="exp-modal-grid">
+        <div class="exp-modal-media">
+          <img src="" id="expModalImg" alt="Excursion" />
+          <div class="exp-modal-price-badge">
+            <span class="exp-modal-price-label">From</span>
+            <span class="exp-modal-price-val" id="expModalPrice">$45</span>
+            <span class="exp-modal-price-unit">per guest</span>
+          </div>
+        </div>
+        <div class="exp-modal-content">
+          <span class="section-subtitle" id="expModalSub">GUIDED EXCURSION</span>
+          <h2 class="font-serif" id="expModalTitle">Excursion Name</h2>
+          <div class="exp-modal-meta" id="expModalMeta"></div>
+          <p class="room-modal-desc" id="expModalDesc"></p>
+
+          <h4>Itinerary Highlights:</h4>
+          <ul class="room-modal-list" id="expModalList"></ul>
+
+          <div class="room-modal-btn-wrap">
+            <button class="btn btn-gold" id="expModalBookBtn">Add to My Booking</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
