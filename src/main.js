@@ -361,24 +361,24 @@ function initMenuTabs() {
 /* -------------------------------------------------------------------------- */
 const ROOM_PRICES = {
   cottage: { name: 'Luxury Canopy Cottage', price: 180, img: '/images/cottage.png' },
-  suite:   { name: 'Deluxe Safari Suite',   price: 250, img: '/images/suite.png'   },
-  villa:   { name: 'Executive Eco-Villa',   price: 380, img: '/images/hero.png'    }
+  suite: { name: 'Deluxe Safari Suite', price: 250, img: '/images/suite.png' },
+  villa: { name: 'Executive Eco-Villa', price: 380, img: '/images/hero.png' }
 };
 
 const EXCURSION_PRICES = {
-  none:     { name: 'None', price: 0 },
-  cocoa:    { name: 'Bundibugyo Cocoa Farm-to-Cup Workshop', price: 35 },
-  mungu:    { name: 'Mungu Ni Mukubwa Mountain Hike', price: 55 },
-  batwa:    { name: 'Batwa Cultural Immersion', price: 40 },
-  sempaya:  { name: 'Sempaya Hot Springs Geothermal Walk', price: 45 },
+  none: { name: 'None', price: 0 },
+  cocoa: { name: 'Bundibugyo Cocoa Farm-to-Cup Workshop', price: 35 },
+  mungu: { name: 'Mungu Ni Mukubwa Mountain Hike', price: 55 },
+  batwa: { name: 'Batwa Cultural Immersion', price: 40 },
+  sempaya: { name: 'Sempaya Hot Springs Geothermal Walk', price: 45 },
   semuliki: { name: 'Semuliki Wildlife & Primate Safari', price: 75 },
   ultimate: { name: 'Ultimate Explorer Pass (All Excursions)', price: 140 }
 };
 
 function initBookingEngine() {
   const bookingModal = document.getElementById('bookingModal');
-  const closeBtn    = document.getElementById('closeBookingModal');
-  const openBtns    = [
+  const closeBtn = document.getElementById('closeBookingModal');
+  const openBtns = [
     document.getElementById('openBookingHeaderBtn'),
     document.getElementById('openBookingCtaBtn'),
     document.getElementById('openTableModalBtn')
@@ -472,15 +472,15 @@ function validateBookingForm() {
   let valid = true;
 
   const fields = [
-    { id: 'modalFullName', errId: 'errName',    msg: 'Please enter your full name.' },
-    { id: 'modalEmail',    errId: 'errEmail',   msg: 'Please enter a valid email address.' },
-    { id: 'modalPhone',    errId: 'errPhone',   msg: 'Please enter your phone number.' },
-    { id: 'modalCheckIn',  errId: 'errCheckIn', msg: 'Please select a check-in date.' },
-    { id: 'modalCheckOut', errId: 'errCheckOut',msg: 'Please select a check-out date.' },
+    { id: 'modalFullName', errId: 'errName', msg: 'Please enter your full name.' },
+    { id: 'modalEmail', errId: 'errEmail', msg: 'Please enter a valid email address.' },
+    { id: 'modalPhone', errId: 'errPhone', msg: 'Please enter your phone number.' },
+    { id: 'modalCheckIn', errId: 'errCheckIn', msg: 'Please select a check-in date.' },
+    { id: 'modalCheckOut', errId: 'errCheckOut', msg: 'Please select a check-out date.' },
   ];
 
   fields.forEach(({ id, errId, msg }) => {
-    const el   = document.getElementById(id);
+    const el = document.getElementById(id);
     const errEl = document.getElementById(errId);
     if (el && errEl) {
       const isEmpty = !el.value.trim();
@@ -492,7 +492,7 @@ function validateBookingForm() {
   });
 
   // Check out must be after check-in
-  const inVal  = document.getElementById('modalCheckIn').value;
+  const inVal = document.getElementById('modalCheckIn').value;
   const outVal = document.getElementById('modalCheckOut').value;
   const outErrEl = document.getElementById('errCheckOut');
   if (inVal && outVal && new Date(outVal) <= new Date(inVal)) {
@@ -522,13 +522,13 @@ async function showBookingSuccess() {
   const summaryEl = document.getElementById('successSummary');
   if (!success || !form) return;
 
-  const name      = document.getElementById('modalFullName').value;
-  const email     = document.getElementById('modalEmail').value;
-  const phone     = document.getElementById('modalPhone').value;
-  const suiteKey  = document.getElementById('modalSuite').value;
-  const checkIn   = document.getElementById('modalCheckIn').value;
-  const checkOut  = document.getElementById('modalCheckOut').value;
-  const guests    = parseInt(document.getElementById('modalGuests').value);
+  const name = document.getElementById('modalFullName').value;
+  const email = document.getElementById('modalEmail').value;
+  const phone = document.getElementById('modalPhone').value;
+  const suiteKey = document.getElementById('modalSuite').value;
+  const checkIn = document.getElementById('modalCheckIn').value;
+  const checkOut = document.getElementById('modalCheckOut').value;
+  const guests = parseInt(document.getElementById('modalGuests').value);
   const excursion = document.getElementById('modalExcursion').value;
   const { nights, totalCost } = calculatePrice();
   const suiteName = ROOM_PRICES[suiteKey]?.name || '';
@@ -568,24 +568,24 @@ function animatePriceUpdate() {
 }
 
 function calculatePrice() {
-  const checkIn  = new Date(document.getElementById('modalCheckIn').value);
+  const checkIn = new Date(document.getElementById('modalCheckIn').value);
   const checkOut = new Date(document.getElementById('modalCheckOut').value);
   const suiteKey = document.getElementById('modalSuite').value;
-  const guests   = parseInt(document.getElementById('modalGuests').value) || 1;
-  const expKey   = document.getElementById('modalExcursion').value;
+  const guests = parseInt(document.getElementById('modalGuests').value) || 1;
+  const expKey = document.getElementById('modalExcursion').value;
 
   let nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
   if (isNaN(nights) || nights < 1) nights = 1;
 
-  const roomPrice        = ROOM_PRICES[suiteKey]?.price || 180;
+  const roomPrice = ROOM_PRICES[suiteKey]?.price || 180;
   const expPricePerGuest = EXCURSION_PRICES[expKey]?.price || 0;
-  const accCost          = roomPrice * nights;
-  const expCost          = expPricePerGuest * guests;
-  const totalCost        = accCost + expCost;
+  const accCost = roomPrice * nights;
+  const expCost = expPricePerGuest * guests;
+  const totalCost = accCost + expCost;
 
-  document.getElementById('calcNights').textContent   = `${nights} Night${nights > 1 ? 's' : ''}`;
-  document.getElementById('calcAccCost').textContent  = `$${accCost} USD`;
-  document.getElementById('calcExpCost').textContent  = `$${expCost} USD`;
+  document.getElementById('calcNights').textContent = `${nights} Night${nights > 1 ? 's' : ''}`;
+  document.getElementById('calcAccCost').textContent = `$${accCost} USD`;
+  document.getElementById('calcExpCost').textContent = `$${expCost} USD`;
   document.getElementById('calcTotalCost').textContent = `$${totalCost} USD`;
 
   return { nights, roomPrice, accCost, expCost, totalCost };
@@ -594,14 +594,14 @@ function calculatePrice() {
 function submitWhatsAppInquiry() {
   if (!validateBookingForm()) return;
 
-  const name     = document.getElementById('modalFullName').value;
-  const email    = document.getElementById('modalEmail').value;
-  const phone    = document.getElementById('modalPhone').value;
+  const name = document.getElementById('modalFullName').value;
+  const email = document.getElementById('modalEmail').value;
+  const phone = document.getElementById('modalPhone').value;
   const suiteKey = document.getElementById('modalSuite').value;
-  const checkIn  = document.getElementById('modalCheckIn').value;
+  const checkIn = document.getElementById('modalCheckIn').value;
   const checkOut = document.getElementById('modalCheckOut').value;
-  const guests   = parseInt(document.getElementById('modalGuests').value);
-  const expKey   = document.getElementById('modalExcursion').value;
+  const guests = parseInt(document.getElementById('modalGuests').value);
+  const expKey = document.getElementById('modalExcursion').value;
   const { nights, totalCost } = calculatePrice();
 
   // Persist to Supabase (non-blocking)
@@ -612,7 +612,7 @@ function submitWhatsAppInquiry() {
   });
 
   const suiteName = ROOM_PRICES[suiteKey]?.name;
-  const expName   = EXCURSION_PRICES[expKey]?.name;
+  const expName = EXCURSION_PRICES[expKey]?.name;
 
   const message =
     `Hello Kyambu Resort! 🌿%0A` +
@@ -693,8 +693,8 @@ const ROOM_DETAILS = {
 
 function initRoomModals() {
   const roomModal = document.getElementById('roomModal');
-  const closeBtn  = document.getElementById('closeRoomModal');
-  const bookBtn   = document.getElementById('roomModalBookBtn');
+  const closeBtn = document.getElementById('closeRoomModal');
+  const bookBtn = document.getElementById('roomModalBookBtn');
 
   let currentSelectedRoom = 'cottage';
 
@@ -703,10 +703,10 @@ function initRoomModals() {
     if (!details) return;
     currentSelectedRoom = roomKey;
 
-    document.getElementById('roomModalImg').src         = details.img;
+    document.getElementById('roomModalImg').src = details.img;
     document.getElementById('roomModalTitle').textContent = details.title;
     document.getElementById('roomModalPrice').textContent = details.price;
-    document.getElementById('roomModalDesc').textContent  = details.desc;
+    document.getElementById('roomModalDesc').textContent = details.desc;
 
     const listEl = document.getElementById('roomModalList');
     listEl.innerHTML = details.amenities.map(a => `<li>🌿 ${a}</li>`).join('');
@@ -807,7 +807,7 @@ const EXCURSION_DETAILS = {
   sempaya: {
     title: 'Sempaya Geothermal Thermal Walk',
     subtitle: 'GUIDED HOT SPRINGS EXCURSION',
-    img: '/images/sempaya.png',
+    img: '/images/Sempaya-Hot-Springs.jpg',
     duration: '3 – 4 Hours',
     type: 'Guided Walking Tour',
     difficulty: 'Easy to Moderate',
@@ -864,9 +864,9 @@ const EXCURSION_DETAILS = {
 };
 
 function initExcursionModals() {
-  const modal   = document.getElementById('excursionModal');
+  const modal = document.getElementById('excursionModal');
   const closeBtn = document.getElementById('closeExcursionModal');
-  const bookBtn  = document.getElementById('expModalBookBtn');
+  const bookBtn = document.getElementById('expModalBookBtn');
 
   let currentExpKey = 'sempaya';
 
@@ -877,11 +877,11 @@ function initExcursionModals() {
       const data = EXCURSION_DETAILS[expKey];
       if (!data) return;
 
-      document.getElementById('expModalImg').src            = data.img;
-      document.getElementById('expModalTitle').textContent  = data.title;
-      document.getElementById('expModalSub').textContent    = data.subtitle;
-      document.getElementById('expModalPrice').textContent  = data.price;
-      document.getElementById('expModalDesc').textContent   = data.desc;
+      document.getElementById('expModalImg').src = data.img;
+      document.getElementById('expModalTitle').textContent = data.title;
+      document.getElementById('expModalSub').textContent = data.subtitle;
+      document.getElementById('expModalPrice').textContent = data.price;
+      document.getElementById('expModalDesc').textContent = data.desc;
 
       const metaEl = document.getElementById('expModalMeta');
       metaEl.innerHTML = [
@@ -922,9 +922,9 @@ function initExcursionModals() {
 /* Hero Search Action — date validation + shake                               */
 /* -------------------------------------------------------------------------- */
 function initHeroSearch() {
-  const searchBtn  = document.getElementById('heroSearchBtn');
-  const searchBar  = document.querySelector('.hero-search-bar');
-  const heroCheckIn  = document.getElementById('heroCheckIn');
+  const searchBtn = document.getElementById('heroSearchBtn');
+  const searchBar = document.querySelector('.hero-search-bar');
+  const heroCheckIn = document.getElementById('heroCheckIn');
   const heroCheckOut = document.getElementById('heroCheckOut');
 
   if (!searchBtn) return;
@@ -946,9 +946,9 @@ function initHeroSearch() {
   }
 
   searchBtn.addEventListener('click', () => {
-    const inDate  = heroCheckIn?.value;
+    const inDate = heroCheckIn?.value;
     const outDate = heroCheckOut?.value;
-    const today   = new Date().toISOString().split('T')[0];
+    const today = new Date().toISOString().split('T')[0];
 
     let invalid = false;
 
@@ -975,10 +975,10 @@ function initHeroSearch() {
     }
 
     // Pre-fill booking modal
-    document.getElementById('modalCheckIn').value  = inDate;
+    document.getElementById('modalCheckIn').value = inDate;
     document.getElementById('modalCheckOut').value = outDate;
-    document.getElementById('modalGuests').value   = document.getElementById('heroGuests').value;
-    document.getElementById('modalSuite').value    = document.getElementById('heroSuiteType').value;
+    document.getElementById('modalGuests').value = document.getElementById('heroGuests').value;
+    document.getElementById('modalSuite').value = document.getElementById('heroSuiteType').value;
 
     syncCheckOutMin();
     calculatePrice();
@@ -990,21 +990,21 @@ function initHeroSearch() {
 /* Interactive Cocoa Blender Logic                                             */
 /* -------------------------------------------------------------------------- */
 function initCocoaBlender() {
-  const slider     = document.getElementById('cocoaSlider');
-  const pctVal     = document.getElementById('cocoaPctVal');
-  const titleEl    = document.getElementById('recipeTitle');
-  const notesEl    = document.getElementById('recipeNotes');
-  const prepEl     = document.getElementById('recipePrep');
-  const fillEl     = document.getElementById('intensityFill');
+  const slider = document.getElementById('cocoaSlider');
+  const pctVal = document.getElementById('cocoaPctVal');
+  const titleEl = document.getElementById('recipeTitle');
+  const notesEl = document.getElementById('recipeNotes');
+  const prepEl = document.getElementById('recipePrep');
+  const fillEl = document.getElementById('intensityFill');
 
   if (!slider) return;
 
   function updateBlender() {
     const pct = parseInt(slider.value, 10);
-    const vanilla  = document.getElementById('spiceVanilla')?.checked;
+    const vanilla = document.getElementById('spiceVanilla')?.checked;
     const cardamom = document.getElementById('spiceCardamom')?.checked;
     const cinnamon = document.getElementById('spiceCinnamon')?.checked;
-    const chili    = document.getElementById('spiceChili')?.checked;
+    const chili = document.getElementById('spiceChili')?.checked;
     const sweetener = document.querySelector('input[name="sweetener"]:checked')?.value || 'honey';
 
     // Label update
@@ -1060,9 +1060,9 @@ function initCocoaBlender() {
 /* Gear Modal Handler                                                         */
 /* -------------------------------------------------------------------------- */
 function initGearModal() {
-  const gearModal  = document.getElementById('gearModal');
-  const openBtn    = document.getElementById('openGearChecklistBtn');
-  const closeBtn   = document.getElementById('closeGearModal');
+  const gearModal = document.getElementById('gearModal');
+  const openBtn = document.getElementById('openGearChecklistBtn');
+  const closeBtn = document.getElementById('closeGearModal');
 
   if (!gearModal) return;
 
