@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollAnimations();
   initBackToTop();
   initFavourites();
+  initCocoaBlender();
+  initGearModal();
 });
 
 /* -------------------------------------------------------------------------- */
@@ -364,10 +366,13 @@ const ROOM_PRICES = {
 };
 
 const EXCURSION_PRICES = {
-  none:     { name: 'None',                        price: 0   },
-  sempaya:  { name: 'Sempaya Hot Springs Walk',     price: 45  },
-  semuliki: { name: 'Semuliki Wildlife Safari',     price: 75  },
-  full:     { name: 'Ultimate Combo Excursion',     price: 110 }
+  none:     { name: 'None', price: 0 },
+  cocoa:    { name: 'Bundibugyo Cocoa Farm-to-Cup Workshop', price: 35 },
+  mungu:    { name: 'Mungu Ni Mukubwa Mountain Hike', price: 55 },
+  batwa:    { name: 'Batwa Cultural Immersion', price: 40 },
+  sempaya:  { name: 'Sempaya Hot Springs Geothermal Walk', price: 45 },
+  semuliki: { name: 'Semuliki Wildlife & Primate Safari', price: 75 },
+  ultimate: { name: 'Ultimate Explorer Pass (All Excursions)', price: 140 }
 };
 
 function initBookingEngine() {
@@ -742,6 +747,63 @@ function initRoomModals() {
 /* Excursion Detail Modals                                                    */
 /* -------------------------------------------------------------------------- */
 const EXCURSION_DETAILS = {
+  cocoa: {
+    title: 'Bundibugyo Cocoa Farm-to-Cup Workshop',
+    subtitle: 'ORGANIC FARM & ARTISAN WORKSHOP',
+    img: '/images/cocoa.jpg',
+    duration: '3 Hours',
+    type: 'Culinary & Craft Experience',
+    difficulty: 'Easy',
+    price: '$35',
+    bookingKey: 'cocoa',
+    desc: 'Explore Africa\'s cocoa capital! Walk through organic cocoa groves, learn traditional banana leaf fermentation, roast cocoa nibs over open wood fires, and stone-grind your own custom dark chocolate powder or beverage to take home.',
+    highlights: [
+      'Guided harvest walk through organic Bundibugyo cocoa estates',
+      'Banana leaf fermentation and solar sun-drying process demo',
+      'Wood-fired cocoa nib roasting & stone mortar grinding',
+      'Custom spice blending session with Rwenzori vanilla & wild cardamom',
+      'Take home your custom-crafted cocoa powder jar & gift recipe card',
+      'Kyambu hot cocoa tasting session included'
+    ]
+  },
+  mungu: {
+    title: 'Mungu Ni Mukubwa Mountain Ridge Trek',
+    subtitle: 'RWENZORI FOOTHILLS SUMMIT ADVENTURE',
+    img: '/images/mungu.jpg',
+    duration: '4 – 5 Hours',
+    type: 'Mountain Hike & Viewpoint',
+    difficulty: 'Moderate to Challenging',
+    price: '$55',
+    bookingKey: 'mungu',
+    desc: 'Ascend to the breathtaking "God is Great" peak at 1,700m altitude. Enjoy legendary 360-degree views over the Albertine Rift Valley, the Semuliki Basin, the DRC border, and the snow-capped peaks of the Rwenzori range.',
+    highlights: [
+      'Ascend Mungu Ni Mukubwa peak (1,700m altitude)',
+      '360° panoramic sunrise vista of Albertine Rift & Rwenzori peaks',
+      'Glacial stream crossing and rainforest canopy walk',
+      'Spot black-and-white colobus monkeys in bamboo thickets',
+      'Mountain guide, trail trekking poles & safety gear included',
+      'Summit hot tea & Bundibugyo dried fruit energy pack'
+    ]
+  },
+  batwa: {
+    title: 'Batwa Cultural Immersion of Bundibugyo',
+    subtitle: 'INDIGENOUS HERITAGE ENCOUNTER',
+    img: '/images/batwa.jpg',
+    duration: '3 Hours',
+    type: 'Cultural Heritage Tour',
+    difficulty: 'Easy',
+    price: '$40',
+    bookingKey: 'batwa',
+    desc: 'Connect with the original forest guardians of Semuliki. Experience authentic traditional music, sacred drumming, rainforest botanical herbalism, friction fire crafting, and handcraft workshops led by Batwa elders.',
+    highlights: [
+      'Traditional Batwa folk song, drum beat & dance performance',
+      'Rainforest herbal medicine walk with community elders',
+      'Demonstration of ancient friction fire crafting in seconds',
+      'Hands-on bamboo basketry and wood carving workshop',
+      '100% of excursion fee directly supports local Batwa families',
+      'Complimentary handmade souvenir craft for every guest'
+    ]
+  },
   sempaya: {
     title: 'Sempaya Geothermal Thermal Walk',
     subtitle: 'GUIDED HOT SPRINGS EXCURSION',
@@ -780,23 +842,23 @@ const EXCURSION_DETAILS = {
       'Night safari option available on request'
     ]
   },
-  cocoa: {
-    title: 'Bundibugyo Cocoa & Heritage Trail',
-    subtitle: 'CULTURE & CULINARY EXCURSION',
-    img: '/images/dining.png',
-    duration: '3 Hours',
-    type: 'Culture & Culinary Tour',
-    difficulty: 'Easy',
-    price: '$40',
-    bookingKey: 'full',
-    desc: "Explore the heart of Bundibugyo's renowned organic cocoa industry — some of the finest in Africa. Visit working cocoa farms, observe traditional fermentation and drying processes, sample freshly produced chocolate, and conclude with an authentic cultural performance by the indigenous Batwa and Bwamba communities.",
+  ultimate: {
+    title: 'Ultimate Explorer Pass (All Excursions Package)',
+    subtitle: 'THE COMPLETE BUNDIBUGYO PASS',
+    img: '/images/hero.png',
+    duration: 'Multi-Day / Flexible',
+    type: 'All-Inclusive Excursion Pass',
+    difficulty: 'Varied',
+    price: '$140',
+    bookingKey: 'ultimate',
+    desc: 'Experience the best of Western Uganda! Includes full access to the Cocoa Farm-to-Cup Workshop, Mungu Ni Mukubwa Ridge Trek, Batwa Cultural Immersion, and Sempaya Geothermal Springs Walk at a special discounted package price.',
     highlights: [
-      'Visit an active organic cocoa farm in Bundibugyo',
-      'Learn the full bean-to-bar chocolate making process',
-      'Taste freshly produced artisan Bundibugyo chocolate',
-      'Cultural dance and music performance',
-      'Meet local Batwa and Bwamba community members',
-      'Take home a gift pack of organic cocoa products'
+      'Includes Cocoa Farm-to-Cup Workshop ($35 value)',
+      'Includes Mungu Ni Mukubwa Mountain Hike ($55 value)',
+      'Includes Batwa Cultural Immersion ($40 value)',
+      'Includes Sempaya Geothermal Hot Springs Walk ($45 value)',
+      'Flexible scheduling over your entire stay at Kyambu Resort',
+      'Save over $35 compared to booking excursions individually!'
     ]
   }
 };
@@ -921,5 +983,98 @@ function initHeroSearch() {
     syncCheckOutMin();
     calculatePrice();
     document.getElementById('bookingModal').classList.add('active');
+  });
+}
+
+/* -------------------------------------------------------------------------- */
+/* Interactive Cocoa Blender Logic                                             */
+/* -------------------------------------------------------------------------- */
+function initCocoaBlender() {
+  const slider     = document.getElementById('cocoaSlider');
+  const pctVal     = document.getElementById('cocoaPctVal');
+  const titleEl    = document.getElementById('recipeTitle');
+  const notesEl    = document.getElementById('recipeNotes');
+  const prepEl     = document.getElementById('recipePrep');
+  const fillEl     = document.getElementById('intensityFill');
+
+  if (!slider) return;
+
+  function updateBlender() {
+    const pct = parseInt(slider.value, 10);
+    const vanilla  = document.getElementById('spiceVanilla')?.checked;
+    const cardamom = document.getElementById('spiceCardamom')?.checked;
+    const cinnamon = document.getElementById('spiceCinnamon')?.checked;
+    const chili    = document.getElementById('spiceChili')?.checked;
+    const sweetener = document.querySelector('input[name="sweetener"]:checked')?.value || 'honey';
+
+    // Label update
+    let typeName = 'Semi-Sweet Cocoa';
+    if (pct >= 85) typeName = 'Pure Artisanal Dark';
+    else if (pct >= 70) typeName = 'Single-Origin Dark';
+    else if (pct >= 60) typeName = 'Smooth Medium Dark';
+
+    pctVal.textContent = `${pct}% ${typeName}`;
+    titleEl.textContent = `${pct}% ${typeName} Blend`;
+
+    // Notes calculation
+    const notes = [];
+    if (pct >= 80) notes.push('Rich Roasted Nib', 'Earthy Espresso');
+    else if (pct >= 65) notes.push('Deep Fudge', 'Subtle Fruitiness');
+    else notes.push('Creamy Chocolate', 'Butterscotch');
+
+    if (vanilla) notes.push('Floral Vanilla');
+    if (cardamom) notes.push('Wild Cardamom');
+    if (cinnamon) notes.push('Warm Cinnamon');
+    if (chili) notes.push('Zesty Rift Chili');
+
+    if (sweetener === 'honey') notes.push('Wild Forest Honey');
+    else if (sweetener === 'cane') notes.push('Raw Cane Sugar');
+
+    notesEl.textContent = notes.join(', ');
+
+    // Prep suggestion
+    if (chili) prepEl.textContent = 'Spiced Aztec Hot Chocolate';
+    else if (pct >= 80) prepEl.textContent = 'Intense Espresso Cocoa Shot';
+    else prepEl.textContent = 'Hot Rainforest Milk Cocoa or Iced Mocha';
+
+    // Fill intensity bar
+    if (fillEl) fillEl.style.width = `${pct}%`;
+  }
+
+  slider.addEventListener('input', updateBlender);
+
+  ['spiceVanilla', 'spiceCardamom', 'spiceCinnamon', 'spiceChili'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('change', updateBlender);
+  });
+
+  document.querySelectorAll('input[name="sweetener"]').forEach(radio => {
+    radio.addEventListener('change', updateBlender);
+  });
+
+  // Initial call
+  updateBlender();
+}
+
+/* -------------------------------------------------------------------------- */
+/* Gear Modal Handler                                                         */
+/* -------------------------------------------------------------------------- */
+function initGearModal() {
+  const gearModal  = document.getElementById('gearModal');
+  const openBtn    = document.getElementById('openGearChecklistBtn');
+  const closeBtn   = document.getElementById('closeGearModal');
+
+  if (!gearModal) return;
+
+  if (openBtn) {
+    openBtn.addEventListener('click', () => gearModal.classList.add('active'));
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => gearModal.classList.remove('active'));
+  }
+
+  gearModal.addEventListener('click', (e) => {
+    if (e.target === gearModal) gearModal.classList.remove('active');
   });
 }

@@ -1854,21 +1854,514 @@ h1, h2, h3, h4 {
   border-radius: var(--radius-full);
 }
 
+
+/* ============================================================
+   COCOA FARM-TO-CUP SECTION & INTERACTIVE BLENDER
+   ============================================================ */
+.cocoa-section {
+  padding: 7rem 0;
+  background: var(--color-sand-light);
+  color: var(--color-text-main);
+}
+
+.cocoa-journey-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.25rem;
+  margin: 3.5rem 0;
+}
+
+.cocoa-step-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-sand-dark);
+  border-radius: var(--radius-md);
+  padding: 1.75rem 1.25rem;
+  position: relative;
+  transition: all var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+}
+
+.cocoa-step-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-gold);
+}
+
+.cocoa-step-card.highlight-step {
+  background: linear-gradient(145deg, #ffffff, #fdf6ee);
+  border: 2px solid var(--color-gold);
+}
+
+.step-num {
+  font-family: var(--font-serif);
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--color-gold-dark);
+  opacity: 0.35;
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+}
+
+.step-icon {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+}
+
+.cocoa-step-card h4 {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--color-emerald-dark);
+  margin-bottom: 0.5rem;
+}
+
+.cocoa-step-card p {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+/* Interactive Cocoa Blender Box */
+.cocoa-blender-box {
+  background: var(--color-white);
+  border: 1px solid var(--color-sand-dark);
+  border-radius: var(--radius-lg);
+  padding: 3rem;
+  box-shadow: var(--shadow-lg);
+  margin-top: 3rem;
+}
+
+.blender-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.blender-header h3 {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  color: var(--color-emerald-dark);
+  margin: 0.75rem 0 0.5rem;
+}
+
+.blender-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.blender-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.control-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-emerald-dark);
+}
+
+.control-label strong {
+  color: var(--color-gold-dark);
+}
+
+.control-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-emerald-dark);
+}
+
+.custom-range {
+  width: 100%;
+  accent-color: var(--color-gold-dark);
+  cursor: pointer;
+  height: 8px;
+}
+
+.range-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.checkbox-grid, .radio-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.checkbox-pill, .radio-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--color-sand-light);
+  border: 1px solid var(--color-sand-dark);
+  padding: 0.65rem 1rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+}
+
+.checkbox-pill:hover, .radio-pill:hover {
+  background: var(--color-gold-light);
+  border-color: var(--color-gold);
+}
+
+.checkbox-pill input, .radio-pill input {
+  accent-color: var(--color-gold-dark);
+  cursor: pointer;
+}
+
+/* Result Card */
+.blender-result-card {
+  background: var(--color-emerald-dark);
+  color: var(--color-white);
+  border-radius: var(--radius-md);
+  padding: 2.25rem;
+  border: 2px solid var(--color-gold);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.recipe-origin {
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  font-weight: 700;
+}
+
+.recipe-card-head h4 {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  color: var(--color-white);
+  margin-top: 0.25rem;
+}
+
+.recipe-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 1.25rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.recipe-stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.stat-lbl {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.05em;
+}
+
+.stat-val {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-gold-light);
+}
+
+.intensity-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.intensity-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-gold), #e07a5f);
+  border-radius: var(--radius-full);
+  transition: width var(--transition-normal);
+}
+
+/* ============================================================
+   MUNGU NI MUKUBWA TREK SECTION
+   ============================================================ */
+.mungu-section {
+  padding: 7rem 0;
+  background: #0d241d;
+  color: var(--color-white);
+}
+
+.mungu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.mungu-img-frame {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.mungu-img {
+  width: 100%;
+  height: 480px;
+  object-fit: cover;
+  display: block;
+}
+
+.mungu-badge {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: rgba(13, 36, 29, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid var(--color-gold);
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius-md);
+  color: var(--color-white);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.mungu-badge span { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-gold); }
+.mungu-badge strong { font-size: 2.2rem; font-weight: 700; line-height: 1; margin: 0.2rem 0; }
+.mungu-badge small { font-size: 0.75rem; opacity: 0.8; }
+
+.mungu-content-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.mungu-section .section-subtitle { color: var(--color-gold); }
+.mungu-section .section-title { color: var(--color-white); }
+.mungu-section .paragraph-lead { color: rgba(255, 255, 255, 0.9); }
+
+.trek-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.trek-stat-box {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.trek-icon { font-size: 1.8rem; }
+.trek-info { display: flex; flex-direction: column; }
+.trek-info strong { font-size: 1.1rem; color: var(--color-white); }
+.trek-info span { font-size: 0.8rem; color: rgba(255, 255, 255, 0.7); }
+
+.trail-waypoints {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.trail-waypoints h4 {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: var(--color-gold-light);
+  margin-bottom: 1rem;
+}
+
+.waypoint-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.waypoint-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.4;
+}
+
+.wp-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--color-gold);
+  border-radius: 50%;
+  margin-top: 4px;
+  flex-shrink: 0;
+  box-shadow: 0 0 8px var(--color-gold);
+}
+
+.mungu-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* ============================================================
+   BATWA CULTURAL IMMERSION SECTION
+   ============================================================ */
+.batwa-section {
+  padding: 7rem 0;
+  background: var(--color-white);
+  color: var(--color-text-main);
+}
+
+.cultural-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin: 3.5rem 0;
+}
+
+.pillar-card {
+  background: var(--color-sand-light);
+  border: 1px solid var(--color-sand-dark);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: all var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+}
+
+.pillar-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-gold);
+}
+
+.pillar-img-box {
+  position: relative;
+  height: 190px;
+  overflow: hidden;
+}
+
+.pillar-img-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-normal);
+}
+
+.pillar-card:hover .pillar-img-box img {
+  transform: scale(1.08);
+}
+
+.pillar-tag {
+  position: absolute;
+  top: 0.8rem;
+  left: 0.8rem;
+  background: var(--color-emerald-dark);
+  color: var(--color-gold);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+}
+
+.pillar-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.pillar-content h4 {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--color-emerald-dark);
+}
+
+.pillar-content p {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+/* Impact Strip */
+.impact-strip {
+  background: linear-gradient(135deg, var(--color-emerald-dark), #091a15);
+  color: var(--color-white);
+  padding: 2.5rem 3rem;
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--color-gold);
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  box-shadow: var(--shadow-lg);
+}
+
+.impact-badge {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-gold);
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+  padding-right: 2rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.impact-text h4 {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  color: var(--color-white);
+  margin-bottom: 0.35rem;
+}
+
+.impact-text p {
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+}
+
+.impact-strip .btn { flex-shrink: 0; }
+
 /* ============================================================
    RESPONSIVE BREAKPOINTS
    ============================================================ */
 @media (max-width: 1024px) {
   .hero-search-bar { grid-template-columns: 1fr 1fr; }
-  .about-grid, .dining-grid, .location-grid, .experience-header-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-  .cards-grid, .experiences-grid { grid-template-columns: repeat(2, 1fr); }
+  .about-grid, .dining-grid, .location-grid, .experience-header-grid, .mungu-grid, .blender-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .cards-grid, .experiences-grid, .cultural-pillars-grid { grid-template-columns: repeat(2, 1fr); }
+  .cocoa-journey-grid { grid-template-columns: repeat(3, 1fr); }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .exp-modal-grid { grid-template-columns: 1fr; }
   .exp-modal-media img { height: 220px; }
+  .impact-strip { flex-direction: column; align-items: flex-start; gap: 1.5rem; text-align: left; }
+  .impact-badge { border-right: none; padding-right: 0; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 0.5rem; width: 100%; }
 }
 
 @media (max-width: 768px) {
   .hero-search-bar { grid-template-columns: 1fr; }
-  .cards-grid, .experiences-grid { grid-template-columns: 1fr; }
+  .cards-grid, .experiences-grid, .cultural-pillars-grid, .cocoa-journey-grid, .checkbox-grid, .radio-grid, .trek-stats-grid { grid-template-columns: 1fr; }
   .nav-links { display: none; }
   .nav-links.mobile-open { display: flex; }
   .mobile-toggle { display: flex; }
@@ -1877,4 +2370,5 @@ h1, h2, h3, h4 {
   .weather-divider { display: none; }
   .map-info-strip { flex-direction: column; align-items: flex-start; }
   .back-to-top { bottom: 5.5rem; }
+  .cocoa-blender-box { padding: 1.5rem; }
 }

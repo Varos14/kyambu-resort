@@ -56,8 +56,11 @@
 
       <nav class="nav-links" id="navLinks">
         <a href="#about" class="nav-link" data-section="about">About</a>
-        <a href="#accommodations" class="nav-link" data-section="accommodations">Accommodations</a>
-        <a href="#experiences" class="nav-link" data-section="experiences">Sempaya &amp; Semuliki</a>
+        <a href="#accommodations" class="nav-link" data-section="accommodations">Cottages</a>
+        <a href="#cocoa-experience" class="nav-link" data-section="cocoa-experience">Cocoa Experience</a>
+        <a href="#mungu-trek" class="nav-link" data-section="mungu-trek">Mungu Trek</a>
+        <a href="#batwa-culture" class="nav-link" data-section="batwa-culture">Batwa Culture</a>
+        <a href="#experiences" class="nav-link" data-section="experiences">Sempaya Hot Springs</a>
         <a href="#dining" class="nav-link" data-section="dining">Dining</a>
         <a href="#location" class="nav-link" data-section="location">Location</a>
       </nav>
@@ -311,67 +314,385 @@
     </div>
   </section>
 
-  <!-- Sempaya & Semuliki Experiences -->
+  <!-- Cocoa Farm-to-Cup Experience Section -->
+  <section class="cocoa-section" id="cocoa-experience">
+    <div class="section-container">
+      <div class="section-header text-center" data-animate="fade-up">
+        <span class="section-subtitle">BUNDIBUGYO COCOA CAPITAL</span>
+        <h2 class="section-title">Farm-to-Cup Artisan Cocoa Journey</h2>
+        <p class="section-desc">Bundibugyo is Africa's premier organic cocoa valley. Experience how raw cacao pods harvested from local farms transform into handcrafted cocoa powder and luxury chocolate beverages at Kyambu Resort.</p>
+      </div>
+
+      <!-- 5-Step Farm to Cup Visual Process -->
+      <div class="cocoa-journey-grid">
+        <div class="cocoa-step-card" data-animate="fade-up" data-delay="0">
+          <div class="step-num">01</div>
+          <div class="step-icon">🌱</div>
+          <h4>Organic Farm Harvest</h4>
+          <p>Walk through shade-grown cocoa groves in Bundibugyo. Harvest ripe, golden cocoa pods directly from cacao trees with local farmers.</p>
+        </div>
+
+        <div class="cocoa-step-card" data-animate="fade-up" data-delay="100">
+          <div class="step-num">02</div>
+          <div class="step-icon">🍃</div>
+          <h4>Banana Leaf Fermentation</h4>
+          <p>Discover traditional fermentation inside banana leaf beds for 5-7 days, developing complex floral and fruity chocolate flavors.</p>
+        </div>
+
+        <div class="cocoa-step-card" data-animate="fade-up" data-delay="200">
+          <div class="step-num">03</div>
+          <div class="step-icon">☀️</div>
+          <h4>Rainforest Sun Drying</h4>
+          <p>Spread fermented cocoa beans on raised wooden drying tables under the equatorial sun until optimal moisture is achieved.</p>
+        </div>
+
+        <div class="cocoa-step-card" data-animate="fade-up" data-delay="300">
+          <div class="step-num">04</div>
+          <div class="step-icon">🔥</div>
+          <h4>Artisan Roasting &amp; Winnowing</h4>
+          <p>Gently roast cocoa nibs over open wood fires to liberate rich aroma, followed by stone winnowing to remove cocoa shells.</p>
+        </div>
+
+        <div class="cocoa-step-card highlight-step" data-animate="fade-up" data-delay="400">
+          <div class="step-num">05</div>
+          <div class="step-icon">☕</div>
+          <h4>Handcraft Your Cocoa Product</h4>
+          <p>Grind cocoa nibs into fine cocoa powder or solid dark chocolate, custom-spiced with Rwenzori vanilla and local spices to take home!</p>
+        </div>
+      </div>
+
+      <!-- Interactive Cocoa Powder & Chocolate Customizer -->
+      <div class="cocoa-blender-box" data-animate="fade-up">
+        <div class="blender-header">
+          <span class="badge-pill">☕ Interactive Experience</span>
+          <h3>Design Your Custom Bundibugyo Cocoa Blend</h3>
+          <p>Customize your ideal cocoa percentage and rainforest spice infusion. Preview your flavor profile card below!</p>
+        </div>
+
+        <div class="blender-grid">
+          <div class="blender-controls">
+            <!-- Cocoa Percentage Slider -->
+            <div class="control-group">
+              <div class="control-label">
+                <span>Dark Cocoa Percentage:</span>
+                <strong id="cocoaPctVal">75% Single-Origin Dark</strong>
+              </div>
+              <input type="range" id="cocoaSlider" min="50" max="100" value="75" class="custom-range" />
+              <div class="range-labels">
+                <span>50% Milk Cocoa</span>
+                <span>75% Dark</span>
+                <span>100% Raw Pure</span>
+              </div>
+            </div>
+
+            <!-- Native Spice Selectors -->
+            <div class="control-group">
+              <label class="control-title">Select Rainforest Spice Infusions:</label>
+              <div class="checkbox-grid">
+                <label class="checkbox-pill">
+                  <input type="checkbox" id="spiceVanilla" checked />
+                  <span>🌿 Rwenzori Vanilla</span>
+                </label>
+                <label class="checkbox-pill">
+                  <input type="checkbox" id="spiceCardamom" checked />
+                  <span>🌱 Wild Cardamom</span>
+                </label>
+                <label class="checkbox-pill">
+                  <input type="checkbox" id="spiceCinnamon" />
+                  <span>🪵 Bundibugyo Cinnamon</span>
+                </label>
+                <label class="checkbox-pill">
+                  <input type="checkbox" id="spiceChili" />
+                  <span>🌶️ Rift Valley Chili</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Sweetener Choice -->
+            <div class="control-group">
+              <label class="control-title">Natural Sweetener Base:</label>
+              <div class="radio-grid">
+                <label class="radio-pill">
+                  <input type="radio" name="sweetener" value="honey" checked />
+                  <span>🍯 Wild Forest Honey</span>
+                </label>
+                <label class="radio-pill">
+                  <input type="radio" name="sweetener" value="cane" />
+                  <span>🌾 Raw Cane Sugar</span>
+                </label>
+                <label class="radio-pill">
+                  <input type="radio" name="sweetener" value="none" />
+                  <span>🍃 Unsweetened Pure</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recipe Card Output -->
+          <div class="blender-result-card" id="cocoaRecipeCard">
+            <div class="recipe-card-head">
+              <span class="recipe-origin">BUNDIBUGYO SINGLE-ORIGIN</span>
+              <h4 id="recipeTitle">75% Spiced Canopy Dark Blend</h4>
+            </div>
+
+            <div class="recipe-stats">
+              <div class="recipe-stat-item">
+                <span class="stat-lbl">Intensity</span>
+                <div class="intensity-bar"><div class="intensity-fill" id="intensityFill" style="width:75%"></div></div>
+              </div>
+              <div class="recipe-stat-item">
+                <span class="stat-lbl">Flavor Notes</span>
+                <span class="stat-val" id="recipeNotes">Rich Fudge, Floral Vanilla, Warm Spice</span>
+              </div>
+              <div class="recipe-stat-item">
+                <span class="stat-lbl">Recommended Prep</span>
+                <span class="stat-val" id="recipePrep">Hot Rainforest Cocoa or Ice Mocha</span>
+              </div>
+            </div>
+
+            <div class="recipe-card-footer">
+              <button class="btn btn-gold btn-full open-exp-modal" data-exp="cocoa">
+                Book Cocoa Farm-to-Cup Experience ($35/guest)
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mungu Ni Mukubwa Mountain Trekking Section -->
+  <section class="mungu-section" id="mungu-trek">
+    <div class="section-container">
+      <div class="mungu-grid">
+        <div class="mungu-media-col" data-animate="fade-right">
+          <div class="mungu-img-frame">
+            <img src="/images/mungu.jpg" alt="Mungu Ni Mukubwa Ridge Hiking Trek" class="mungu-img" />
+            <div class="mungu-badge font-serif">
+              <span>Peak Altitude</span>
+              <strong>1,700m</strong>
+              <small>Above Sea Level</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="mungu-content-col" data-animate="fade-up">
+          <span class="section-subtitle">RWENZORI FOOTHILLS ADVENTURE</span>
+          <h2 class="section-title">Mungu Ni Mukubwa Ridge Trek</h2>
+          <p class="paragraph-lead">
+            Meaning "God is Great" in Swahili, Mungu Ni Mukubwa is Bundibugyo's iconic mountain viewpoint offering legendary panoramic vistas across the Albertine Rift Valley and the glaciated peaks of Rwenzori.
+          </p>
+
+          <!-- Key Trail Stats -->
+          <div class="trek-stats-grid">
+            <div class="trek-stat-box">
+              <span class="trek-icon">⛰️</span>
+              <div class="trek-info">
+                <strong>1,700 m</strong>
+                <span>Elevation Gain</span>
+              </div>
+            </div>
+            <div class="trek-stat-box">
+              <span class="trek-icon">⏱️</span>
+              <div class="trek-info">
+                <strong>4 – 5 Hours</strong>
+                <span>Trek Duration</span>
+              </div>
+            </div>
+            <div class="trek-stat-box">
+              <span class="trek-icon">🥾</span>
+              <div class="trek-info">
+                <strong>Moderate</strong>
+                <span>Trail Difficulty</span>
+              </div>
+            </div>
+            <div class="trek-stat-box">
+              <span class="trek-icon">🌅</span>
+              <div class="trek-info">
+                <strong>360° Panorama</strong>
+                <span>Rift Valley Sunrise</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Trail Waypoints Timeline -->
+          <div class="trail-waypoints">
+            <h4>Trek Waypoint Highlights:</h4>
+            <div class="waypoint-list">
+              <div class="waypoint-item">
+                <span class="wp-dot"></span>
+                <strong>Kyambu Resort Base:</strong> Early morning departure through lush cocoa and banana plantations.
+              </div>
+              <div class="waypoint-item">
+                <span class="wp-dot"></span>
+                <strong>Canopy Stream Crossing:</strong> Refreshing stop at crystal-clear mountain streams fed by Rwenzori glaciers.
+              </div>
+              <div class="waypoint-item">
+                <span class="wp-dot"></span>
+                <strong>Bamboo &amp; Primate Ridge:</strong> Pass through bamboo thickets; spot black-and-white colobus monkeys.
+              </div>
+              <div class="waypoint-item">
+                <span class="wp-dot"></span>
+                <strong>Mungu Ni Mukubwa Summit Peak:</strong> 360° view of Semuliki Basin, DRC border, and Rwenzori snowline.
+              </div>
+            </div>
+          </div>
+
+          <div class="mungu-actions">
+            <button class="btn btn-gold open-exp-modal" data-exp="mungu">Book Mungu Trek ($55/guest)</button>
+            <button class="btn btn-outline" id="openGearChecklistBtn">🎒 Gear Checklist</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Batwa Cultural Immersion Section -->
+  <section class="batwa-section" id="batwa-culture">
+    <div class="section-container">
+      <div class="section-header text-center" data-animate="fade-up">
+        <span class="section-subtitle">INDIGENOUS HERITAGE &amp; COMMUNITY</span>
+        <h2 class="section-title">Batwa Cultural Immersion of Bundibugyo</h2>
+        <p class="section-desc">Connect with the original guardians of the Semuliki rainforest. Experience ancient hunting lore, traditional music, herbal medicine wisdom, and handcraft workshops led by Batwa cultural leaders.</p>
+      </div>
+
+      <!-- 4 Cultural Pillars Grid -->
+      <div class="cultural-pillars-grid">
+        <div class="pillar-card" data-animate="fade-up" data-delay="0">
+          <div class="pillar-img-box">
+            <img src="/images/batwa.jpg" alt="Batwa Traditional Music and Dance" />
+            <span class="pillar-tag">Pillar 01</span>
+          </div>
+          <div class="pillar-content">
+            <h4>Rhythmic Music &amp; Folk Dance</h4>
+            <p>Listen to traditional songs passed down through generations, accompanied by sacred drums, bamboo flutes, and vocal harmonies celebrating forest life.</p>
+          </div>
+        </div>
+
+        <div class="pillar-card" data-animate="fade-up" data-delay="100">
+          <div class="pillar-img-box">
+            <img src="/images/batwa.jpg" alt="Rainforest Herbal Medicine" />
+            <span class="pillar-tag">Pillar 02</span>
+          </div>
+          <div class="pillar-content">
+            <h4>Rainforest Herbalism</h4>
+            <p>Guided botanical walk with Batwa elders revealing indigenous medicinal barks, leaves, and roots used for centuries to heal and protect.</p>
+          </div>
+        </div>
+
+        <div class="pillar-card" data-animate="fade-up" data-delay="200">
+          <div class="pillar-img-box">
+            <img src="/images/batwa.jpg" alt="Ancient Friction Fire Making" />
+            <span class="pillar-tag">Pillar 03</span>
+          </div>
+          <div class="pillar-content">
+            <h4>Ancient Fire-Making Skills</h4>
+            <p>Witness how Batwa elders spark fire in seconds using natural rainforest woods and dry fungus tinder without matches or lighters.</p>
+          </div>
+        </div>
+
+        <div class="pillar-card" data-animate="fade-up" data-delay="300">
+          <div class="pillar-img-box">
+            <img src="/images/batwa.jpg" alt="Artisan Basketry and Craftwork" />
+            <span class="pillar-tag">Pillar 04</span>
+          </div>
+          <div class="pillar-content">
+            <h4>Artisan Craft Workshop</h4>
+            <p>Try your hand at traditional bamboo basket weaving, wood carving, or beadwork. Every participant receives a handmade souvenir craft.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ethical Tourism & Direct Impact Strip -->
+      <div class="impact-strip" data-animate="fade-up">
+        <div class="impact-badge font-serif">100% Direct Impact</div>
+        <div class="impact-text">
+          <h4>Ethical Community-Led Cultural Tourism</h4>
+          <p>100% of excursion fees for the Batwa Cultural Immersion directly support Batwa family livelihoods, children's school fees, healthcare, and land conservation initiatives in Bundibugyo District.</p>
+        </div>
+        <button class="btn btn-gold open-exp-modal" data-exp="batwa">Book Batwa Cultural Visit ($40/guest)</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sempaya & Semuliki Experiences Showcase -->
   <section class="experiences-section" id="experiences">
     <div class="section-container">
       <div class="experience-header-grid" data-animate="fade-up">
         <div>
           <span class="section-subtitle">UNFORGETTABLE ADVENTURES</span>
-          <h2 class="section-title">Explore Sempaya &amp; Semuliki</h2>
+          <h2 class="section-title">Bundibugyo Excursion Packages</h2>
         </div>
         <div>
-          <p class="section-desc">We curate bespoke excursions led by expert local guides to ensure your visit to Sempaya Hot Springs and Semuliki National Park is extraordinary.</p>
+          <p class="section-desc">We curate bespoke excursions led by expert local guides to ensure your stay at Kyambu Resort is unforgettable.</p>
         </div>
       </div>
 
       <div class="experiences-grid">
         <div class="exp-card" data-animate="fade-up" data-delay="0">
           <div class="exp-img-box">
-            <img src="/images/sempaya.png" alt="Sempaya Geothermal Hot Springs" />
+            <img src="/images/cocoa.jpg" alt="Bundibugyo Cocoa Farm-to-Cup Workshop" />
             <div class="exp-overlay-text">
-              <span class="exp-duration">⏱️ 3 - 4 Hours</span>
-              <h3>Sempaya Geothermal Thermal Walk</h3>
+              <span class="exp-duration">⏱️ 3 Hours • $35</span>
+              <h3>Cocoa Farm-to-Cup Workshop</h3>
             </div>
           </div>
           <div class="exp-content">
-            <p>Visit the famous male ('Nyasimbi') and female ('Nyamugaite') hot springs. Watch boiling thermal waters jet 2 meters high and enjoy traditional egg-boiling in the spring waters.</p>
+            <p>Visit organic cocoa groves, learn banana leaf fermentation, roast nibs, and craft your own custom cocoa powder and dark chocolate beverage.</p>
             <div class="exp-footer">
-              <span class="exp-tag">Guided Walking Tour</span>
-              <button class="btn-text open-exp-modal" data-exp="sempaya">Read Itinerary →</button>
+              <span class="exp-tag">Culinary &amp; Farm</span>
+              <button class="btn-text open-exp-modal" data-exp="cocoa">Read Itinerary →</button>
             </div>
           </div>
         </div>
 
         <div class="exp-card" data-animate="fade-up" data-delay="100">
           <div class="exp-img-box">
-            <img src="/images/hero.png" alt="Semuliki Wildlife &amp; Birding Safari" />
+            <img src="/images/mungu.jpg" alt="Mungu Ni Mukubwa Mountain Hike" />
             <div class="exp-overlay-text">
-              <span class="exp-duration">⏱️ Half / Full Day</span>
-              <h3>Semuliki Wildlife &amp; Primate Safari</h3>
+              <span class="exp-duration">⏱️ 4 - 5 Hours • $55</span>
+              <h3>Mungu Ni Mukubwa Ridge Trek</h3>
             </div>
           </div>
           <div class="exp-content">
-            <p>Trek through Central African lowland rainforest habitat in East Africa. Home to De Brazza's monkeys, chimpanzees, forest elephants, and over 400 rare bird species.</p>
+            <p>Ascend 1,700m peak overlooking the Albertine Rift Valley and snow-capped Rwenzori summits. Includes guide, trail snacks &amp; summit sunrise tea.</p>
             <div class="exp-footer">
-              <span class="exp-tag">Primate &amp; Birding</span>
-              <button class="btn-text open-exp-modal" data-exp="semuliki">Read Itinerary →</button>
+              <span class="exp-tag">Mountain Hike</span>
+              <button class="btn-text open-exp-modal" data-exp="mungu">Read Itinerary →</button>
             </div>
           </div>
         </div>
 
         <div class="exp-card" data-animate="fade-up" data-delay="200">
           <div class="exp-img-box">
-            <img src="/images/dining.png" alt="Bundibugyo Cultural &amp; Cocoa Tour" />
+            <img src="/images/batwa.jpg" alt="Batwa Cultural Immersion" />
             <div class="exp-overlay-text">
-              <span class="exp-duration">⏱️ 3 Hours</span>
-              <h3>Bundibugyo Cocoa &amp; Heritage Trail</h3>
+              <span class="exp-duration">⏱️ 3 Hours • $40</span>
+              <h3>Batwa Cultural Immersion</h3>
             </div>
           </div>
           <div class="exp-content">
-            <p>Discover Bundibugyo's famous cocoa farms, artisan chocolate processing, and authentic cultural performances by the Batwa and Bwamba communities.</p>
+            <p>Authentic forest heritage encounter featuring sacred music, traditional fire making, medicinal plant walk, and artisan craft making.</p>
             <div class="exp-footer">
-              <span class="exp-tag">Culture &amp; Culinary</span>
-              <button class="btn-text open-exp-modal" data-exp="cocoa">Read Itinerary →</button>
+              <span class="exp-tag">Indigenous Culture</span>
+              <button class="btn-text open-exp-modal" data-exp="batwa">Read Itinerary →</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="exp-card" data-animate="fade-up" data-delay="300">
+          <div class="exp-img-box">
+            <img src="/images/sempaya.png" alt="Sempaya Geothermal Hot Springs" />
+            <div class="exp-overlay-text">
+              <span class="exp-duration">⏱️ 3 - 4 Hours • $45</span>
+              <h3>Sempaya Geothermal Thermal Walk</h3>
+            </div>
+          </div>
+          <div class="exp-content">
+            <p>Visit the famous male ('Nyasimbi') and female ('Nyamugaite') hot springs. Watch boiling thermal waters jet 2m high and enjoy egg-boiling.</p>
+            <div class="exp-footer">
+              <span class="exp-tag">Geothermal Springs</span>
+              <button class="btn-text open-exp-modal" data-exp="sempaya">Read Itinerary →</button>
             </div>
           </div>
         </div>
@@ -661,12 +982,15 @@
           </div>
 
           <div class="form-group">
-            <label for="modalExcursion">Add Sempaya Excursion Package</label>
+            <label for="modalExcursion">Add Bundibugyo Excursion Package</label>
             <select id="modalExcursion">
               <option value="none" data-price="0">No excursion add-on</option>
-              <option value="sempaya" data-price="45">Sempaya Hot Springs Thermal Walk (+$45/guest)</option>
+              <option value="cocoa" data-price="35">Bundibugyo Cocoa Farm-to-Cup Workshop (+$35/guest)</option>
+              <option value="mungu" data-price="55">Mungu Ni Mukubwa Mountain Hike (+$55/guest)</option>
+              <option value="batwa" data-price="40">Batwa Cultural Immersion (+$40/guest)</option>
+              <option value="sempaya" data-price="45">Sempaya Hot Springs Geothermal Walk (+$45/guest)</option>
               <option value="semuliki" data-price="75">Semuliki Primate &amp; Birding Safari (+$75/guest)</option>
-              <option value="full" data-price="110">Ultimate Bundibugyo &amp; Hot Springs Combo (+$110/guest)</option>
+              <option value="ultimate" data-price="140">Ultimate Explorer Pass (Cocoa + Mungu + Batwa + Hot Springs) (+$140/guest)</option>
             </select>
           </div>
         </div>
@@ -756,6 +1080,29 @@
             <button class="btn btn-gold" id="expModalBookBtn">Add to My Booking</button>
           </div>
         </div>
+      </div>
+    </div>
+  <!-- Mungu Trek Gear Checklist Modal -->
+  <div class="modal-overlay" id="gearModal">
+    <div class="modal-card">
+      <button class="modal-close" id="closeGearModal">&times;</button>
+      <div class="modal-header">
+        <span class="section-subtitle">TREKKING PREPARATION</span>
+        <h2 class="font-serif">Mungu Ni Mukubwa Gear Checklist</h2>
+        <p>Ensure a comfortable and safe mountain hike with our recommended gear list.</p>
+      </div>
+      <div class="gear-checklist-body">
+        <ul class="room-modal-list">
+          <li>🥾 <strong>Sturdy Trail Boots:</strong> Ankle support and waterproof grip recommended.</li>
+          <li>🌧️ <strong>Lightweight Rain Shell:</strong> Equatorial rainforest weather can bring sudden showers.</li>
+          <li>🧴 <strong>Sun Protection &amp; Insect Repellent:</strong> Eco-friendly sunscreen, hat, and natural bug spray.</li>
+          <li>💧 <strong>Hydration Flask (1.5L+):</strong> Refillable water bottle (Kyambu provides purified mountain water).</li>
+          <li>📸 <strong>Camera / Smartphone:</strong> Panoramic lens or camera for summit rift valley sunrise views.</li>
+          <li>🍌 <strong>Trail Energy Snacks:</strong> Kyambu provides dried Bundibugyo banana &amp; roasted cocoa nib packs!</li>
+        </ul>
+      </div>
+      <div class="modal-actions" style="margin-top:1.5rem;">
+        <button class="btn btn-gold btn-full open-exp-modal" data-exp="mungu">Book Mungu Ridge Trek ($55/guest)</button>
       </div>
     </div>
   </div>

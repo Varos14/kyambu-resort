@@ -225,8 +225,16 @@ function suiteBadge(suite) {
 }
 
 function excursionLabel(exp) {
-  const map = { none: '—', sempaya: 'Sempaya Walk', semuliki: 'Semuliki Safari', full: 'Combo Package' };
-  return map[exp] || exp;
+  const map = {
+    none: '—',
+    cocoa: 'Cocoa Workshop ($35)',
+    mungu: 'Mungu Trek ($55)',
+    batwa: 'Batwa Culture ($40)',
+    sempaya: 'Sempaya Walk ($45)',
+    semuliki: 'Semuliki Safari ($75)',
+    ultimate: 'Ultimate Pass ($140)'
+  };
+  return map[exp] || exp || '—';
 }
 
 function esc(str) {
