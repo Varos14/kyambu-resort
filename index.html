@@ -972,9 +972,16 @@
     <div class="modal-card">
       <button class="modal-close" id="closeBookingModal">&times;</button>
       <div class="modal-header">
-        <span class="section-subtitle">DIRECT RESERVATION ENGINE</span>
-        <h2 class="font-serif">Reserve Your Stay at Kyambu</h2>
-        <p>Complete your inquiry details to calculate your estimated stay and submit via WhatsApp or Email.</p>
+        <span class="section-subtitle">KYAMBU RESERVATIONS</span>
+        <h2 class="font-serif">Book your rainforest escape</h2>
+        <p>Choose your dates, room, and extras. We will confirm availability personally.</p>
+        <div class="booking-stepper" aria-label="Booking steps">
+          <span class="booking-step active"><b>1</b> Stay</span>
+          <span class="booking-step-line"></span>
+          <span class="booking-step"><b>2</b> Guest</span>
+          <span class="booking-step-line"></span>
+          <span class="booking-step"><b>3</b> Confirm</span>
+        </div>
         <div class="reservation-contacts">
           <span>Reservations:</span>
           <a href="https://api.whatsapp.com/send?phone=256772676944" target="_blank" rel="noopener" aria-label="Chat with Kyambu Resort on WhatsApp">WhatsApp: +256 772 676 944</a>
@@ -993,6 +1000,10 @@
       </div>
 
       <form id="bookingForm">
+        <div class="booking-section-heading">
+          <span class="booking-section-number">01</span>
+          <div><h3>Stay details</h3><p>Choose your dates and the suite or villa you would like to reserve.</p></div>
+        </div>
         <div class="form-grid">
           <div class="form-group">
             <label for="modalFullName">Full Name *</label>
@@ -1013,7 +1024,7 @@
           </div>
 
           <div class="form-group">
-            <label for="modalSuite">Selected Accommodation</label>
+            <label for="modalSuite">Room or villa</label>
             <select id="modalSuite">
               <option value="cottage" data-price="180">Luxury Canopy Cottage ($180/night)</option>
               <option value="suite" data-price="250">Deluxe Safari Suite ($250/night)</option>
@@ -1034,7 +1045,7 @@
           </div>
 
           <div class="form-group">
-            <label for="modalGuests">Guests Count</label>
+            <label for="modalGuests">Guests</label>
             <select id="modalGuests">
               <option value="1">1 Guest</option>
               <option value="2" selected>2 Guests</option>
@@ -1044,7 +1055,7 @@
           </div>
 
           <div class="form-group">
-            <label for="modalExcursion">Add Bundibugyo Excursion Package</label>
+            <label for="modalExcursion">Add an experience <span class="optional-label">optional</span></label>
             <select id="modalExcursion">
               <option value="none" data-price="0">No excursion add-on</option>
               <option value="cocoa" data-price="35">Bundibugyo Cocoa Farm-to-Cup Workshop (+$35/guest)</option>
@@ -1058,7 +1069,13 @@
           </div>
         </div>
 
+        <div class="booking-section-heading guest-heading">
+          <span class="booking-section-number">03</span>
+          <div><h3>Review your estimate</h3><p>Check the total, then choose how you would like to contact us.</p></div>
+        </div>
+
         <div class="price-calculator-box">
+          <div class="price-heading"><span>Your stay estimate</span><small>USD</small></div>
           <div class="calc-row">
             <span>Nights Stay:</span>
             <strong id="calcNights">3 Nights</strong>
@@ -1077,6 +1094,8 @@
             <strong id="calcTotalCost">$630 USD</strong>
           </div>
         </div>
+
+        <div class="booking-note">No payment is required now. Your request is sent directly to our reservations team.</div>
 
         <div class="modal-actions">
           <button type="button" class="btn btn-gold btn-full" id="submitWhatsappBtn">
