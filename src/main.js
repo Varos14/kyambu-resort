@@ -367,6 +367,8 @@ const ROOM_PRICES = {
   villa: { name: 'Executive Eco-Villa', price: 380, img: '/images/hero.png' }
 };
 
+const USD_TO_UGX = 3700;
+
 const EXCURSION_PRICES = {
   none: { name: 'None', price: 0 },
   cocoa: { name: 'Bundibugyo Cocoa Farm-to-Cup Workshop', price: 35 },
@@ -424,6 +426,9 @@ function initBookingEngine() {
   // WhatsApp
   const waBtn = document.getElementById('submitWhatsappBtn');
   if (waBtn) waBtn.addEventListener('click', submitWhatsAppInquiry);
+
+  const pesapalBtn = document.getElementById('submitPesapalBtn');
+  if (pesapalBtn) pesapalBtn.addEventListener('click', submitPesapalPayment);
 
   // Email form submit
   const form = document.getElementById('bookingForm');
@@ -578,6 +583,7 @@ async function showBookingSuccess() {
   const guests = parseInt(document.getElementById('modalGuests').value);
   const excursion = document.getElementById('modalExcursion').value;
   const { nights, totalCost } = calculatePrice();
+  const totalUgx = totalCost * USD_TO_UGX;
   const suiteName = ROOM_PRICES[suiteKey]?.name || '';
 
   // Persist to Supabase (non-blocking)
@@ -595,7 +601,8 @@ async function showBookingSuccess() {
       <strong>Suite:</strong> ${suiteName}<br/>
       <strong>Dates:</strong> ${checkIn} → ${checkOut} (${nights} night${nights > 1 ? 's' : ''})<br/>
       <strong>Guests:</strong> ${guests}<br/>
-      <strong>Estimated Total:</strong> <span class="summary-total">$${totalCost} USD</span>
+      <strong>Estimated Total:</strong> <span class="summary-total">$${totalCost} USD</span><br/>
+      <strong>Estimated Pesapal Amount:</strong> <span class="summary-total">UGX ${totalUgx.toLocaleString()}</span>
     `;
   }
 
@@ -714,6 +721,7 @@ function submitEmailInquiry() {
   const guests = document.getElementById('modalGuests').value;
   const expKey = document.getElementById('modalExcursion').value;
   const { nights, totalCost } = calculatePrice();
+  const totalUgx = totalCost * USD_TO_UGX;
   const suiteName = ROOM_PRICES[suiteKey]?.name || '';
   const expName = EXCURSION_PRICES[expKey]?.name || '';
   const subject = `Reservation inquiry from ${name}`;
@@ -729,12 +737,44 @@ function submitEmailInquiry() {
     `Guests: ${guests}`,
     `Add-On Excursion: ${expName}`,
     `Estimated Total: $${totalCost} USD`,
+    `Estimated Pesapal Amount: UGX ${totalUgx.toLocaleString()}`,
     '',
     'Please confirm availability.'
   ].join('\n');
 
   window.location.href = `mailto:geraldvaros@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   showBookingSuccess();
+}
+
+async function submitPesapalPayment() {
+  if (!validateBookingForm()) return;
+
+  const button = document.getElementById('submitPesapalBtn');
+  const payload = {
+    full_name: document.getElementById('modalFullName').value.trim(),
+    email: document.getElementById('modalEmail').value.trim(),
+    phone: document.getElementById('modalPhone').value.trim(),
+    suite: document.getElementById('modalSuite').value,
+    check_in: document.getElementById('modalCheckIn').value,
+    check_out: document.getElementById('modalCheckOut').value,
+    guests: parseInt(document.getElementById('modalGuests').value, 10) || 1,
+    excursion: document.getElementById('modalExcursion').value
+  };
+
+  button.disabled = true;
+  button.textContent = 'Preparing secure payment…';
+
+  try {
+    const { data, error } = await supabase.functions.invoke('pesapal-create-order', { body: payload });
+    if (error || !data?.redirect_url) {
+      throw new Error(data?.error || error?.message || 'Unable to start Pesapal payment');
+    }
+    window.location.assign(data.redirect_url);
+  } catch (error) {
+    button.disabled = false;
+    button.textContent = 'Pay securely with Pesapal';
+    showToast(`Payment could not start: ${error.message}`);
+  }
 }
 
 function calculatePrice() {
@@ -757,6 +797,7 @@ function calculatePrice() {
   document.getElementById('calcAccCost').textContent = `$${accCost} USD`;
   document.getElementById('calcExpCost').textContent = `$${expCost} USD`;
   document.getElementById('calcTotalCost').textContent = `$${totalCost} USD`;
+  document.getElementById('calcTotalUgx').textContent = `UGX ${(totalCost * USD_TO_UGX).toLocaleString()}`;
 
   return { nights, roomPrice, accCost, expCost, totalCost };
 }
@@ -773,6 +814,7 @@ function submitWhatsAppInquiry() {
   const guests = parseInt(document.getElementById('modalGuests').value);
   const expKey = document.getElementById('modalExcursion').value;
   const { nights, totalCost } = calculatePrice();
+  const totalUgx = totalCost * USD_TO_UGX;
 
   // Persist to Supabase (non-blocking)
   saveBookingToSupabase({
@@ -796,6 +838,7 @@ function submitWhatsAppInquiry() {
     `Guests: ${guests} guest(s)`,
     `Add-On Excursion: ${expName}`,
     `Estimated Total: $${totalCost} USD`,
+    `Estimated Pesapal Amount: UGX ${totalUgx.toLocaleString()}`,
     '',
     'Please confirm availability!'
   ].join('\n');

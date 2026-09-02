@@ -44,6 +44,7 @@ Kyambu Resort is a modern, high-end web application for a premier eco-luxury san
 - Real-time automatic stay calculation: `(Nights × Suite Rate) + (Guests × Add-On Excursion Rate)`.
 - Interactive date validation guards (automatic check-out min date handling).
 - Multi-channel inquiry submission via **WhatsApp API** and **Email Inquiry**.
+- Pesapal checkout backend for Uganda is included under `supabase/functions`, with UGX conversion and server-side transaction verification.
 
 ### 📊 7. Real-Time Admin Dashboard (`admin.html`)
 - Built-in administrative control panel for reservation managers.
@@ -90,6 +91,26 @@ kyambu-resort/
 ├── package.json          # Dependencies & npm scripts
 └── README.md             # Project documentation
 ```
+
+## 💰 Pesapal Uganda Setup
+
+The Pesapal integration keeps consumer credentials in Supabase Edge Function secrets. It uses the sandbox by default and charges in UGX using the `USD_TO_UGX` secret (default `3700`). The public website continues to display prices in USD.
+
+1. Apply `supabase/migrations/20260903000000_pesapal_payments.sql` in the Supabase SQL Editor.
+2. Install the Supabase CLI and link this project.
+3. Set secrets without committing them:
+   ```bash
+   supabase secrets set PESAPAL_ENV=sandbox PESAPAL_CONSUMER_KEY=your_key PESAPAL_CONSUMER_SECRET=your_secret USD_TO_UGX=3700 PESAPAL_CALLBACK_URL=https://your-site.example/admin.html PESAPAL_IPN_ID=your_registered_ipn_id
+   ```
+4. Deploy both functions:
+   ```bash
+   supabase functions deploy pesapal-create-order
+   supabase functions deploy pesapal-ipn
+   ```
+5. Register the IPN URL in Pesapal as `https://mwcaanctieuxfntspbwl.supabase.co/functions/v1/pesapal-ipn` and store the returned ID as `PESAPAL_IPN_ID`.
+6. Use `PESAPAL_ENV=production` only after sandbox payment verification and replace the callback URL with the deployed website URL.
+
+The functions are intentionally public at the HTTP edge because guests are not required to create accounts. The create-order function requires both a booking UUID and the matching booking email, calculates the amount from stored booking fields, and never accepts a client-supplied payment amount. The service-role key is used only inside Supabase and is never exposed to the browser.
 
 ---
 

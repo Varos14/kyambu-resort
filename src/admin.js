@@ -10,18 +10,33 @@ let filterStatus  = 'all';
 let searchQuery   = '';
 let realtimeSub   = null;
 
+const demoPayments = [
+  { guest: 'Aisha Nakato', method: 'Card', amount: '$540', status: 'Paid' },
+  { guest: 'Isaac Kato', method: 'Bank transfer', amount: '$320', status: 'Pending' },
+  { guest: 'Moses Kabuye', method: 'Mobile money', amount: '$680', status: 'Processing' },
+  { guest: 'Grace Tendo', method: 'Card', amount: '$1,240', status: 'Paid' }
+];
+
 /* ── Boot ────────────────────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   initLogin();
+  initPasswordRecovery();
   initLogout();
   initSearch();
   initFilter();
   initRefresh();
+  initManagementPanels();
   checkExistingSession();
 });
 
 /* ── Auth ────────────────────────────────────────────────────────────────── */
 async function checkExistingSession() {
+  const hashParams = new URLSearchParams(window.location.hash.slice(1));
+  if (hashParams.get('error_code') === 'otp_expired') {
+    document.getElementById('loginErr').textContent = 'This reset link has expired. Request a new one below.';
+    window.history.replaceState({}, document.title, window.location.pathname + window.location.search);
+  }
+
   const { data: { session } } = await supabase.auth.getSession();
   if (session) showApp(session.user);
 }
@@ -37,17 +52,99 @@ function initLogin() {
     loginBtn.disabled = true;
     loginBtn.textContent = 'Signing in…';
 
-    const email    = document.getElementById('adminEmail').value;
+    const email    = document.getElementById('adminEmail').value.trim();
     const password = document.getElementById('adminPass').value;
 
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
-    if (error) {
-      errEl.textContent = error.message;
+      if (error) {
+        errEl.textContent = error.message;
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Sign In to Dashboard';
+      } else {
+        showApp(data.user);
+      }
+    } catch (error) {
+      errEl.textContent = 'Invalid login credentials';
       loginBtn.disabled = false;
       loginBtn.textContent = 'Sign In to Dashboard';
-    } else {
-      showApp(data.user);
+    }
+  });
+}
+
+function initPasswordRecovery() {
+  const loginForm = document.getElementById('loginForm');
+  const recoveryForm = document.getElementById('recoveryForm');
+  const newPasswordForm = document.getElementById('newPasswordForm');
+  const loginErr = document.getElementById('loginErr');
+
+  document.getElementById('forgotPasswordBtn').addEventListener('click', () => {
+    loginForm.hidden = true;
+    recoveryForm.hidden = false;
+    loginErr.textContent = '';
+  });
+
+  document.getElementById('backToLoginBtn').addEventListener('click', () => {
+    recoveryForm.hidden = true;
+    loginForm.hidden = false;
+    document.getElementById('recoveryErr').textContent = '';
+  });
+
+  recoveryForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const button = document.getElementById('recoveryBtn');
+    const errorEl = document.getElementById('recoveryErr');
+    button.disabled = true;
+    button.textContent = 'Sending…';
+    errorEl.textContent = '';
+
+    const { error } = await supabase.auth.resetPasswordForEmail(
+      document.getElementById('recoveryEmail').value.trim(),
+      { redirectTo: `${window.location.origin}${window.location.pathname}` }
+    );
+
+    button.disabled = false;
+    button.textContent = 'Send Reset Email';
+    if (error) {
+      const rateLimited = error.status === 429 || error.message.toLowerCase().includes('rate limit');
+      errorEl.textContent = rateLimited
+        ? 'Too many reset requests. Please wait before requesting another email.'
+        : error.message;
+      return;
+    }
+    errorEl.textContent = 'Reset email sent. Open the newest link, then choose a new password here.';
+  });
+
+  newPasswordForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const button = document.getElementById('newPasswordBtn');
+    const errorEl = document.getElementById('newPasswordErr');
+    button.disabled = true;
+    button.textContent = 'Updating…';
+    errorEl.textContent = '';
+
+    const { error } = await supabase.auth.updateUser({
+      password: document.getElementById('newPassword').value
+    });
+
+    button.disabled = false;
+    button.textContent = 'Update Password';
+    if (error) {
+      errorEl.textContent = error.message;
+      return;
+    }
+
+    window.history.replaceState({}, document.title, window.location.pathname + window.location.search);
+    showApp((await supabase.auth.getUser()).data.user);
+  });
+
+  supabase.auth.onAuthStateChange((event) => {
+    if (event === 'PASSWORD_RECOVERY') {
+      loginForm.hidden = true;
+      recoveryForm.hidden = true;
+      newPasswordForm.hidden = false;
+      loginErr.textContent = '';
     }
   });
 }
@@ -55,7 +152,11 @@ function initLogin() {
 function initLogout() {
   document.getElementById('logoutBtn').addEventListener('click', async () => {
     if (realtimeSub) supabase.removeChannel(realtimeSub);
-    await supabase.auth.signOut();
+    try {
+      await supabase.auth.signOut();
+    } catch (error) {
+      console.warn('Supabase sign-out warning:', error);
+    }
     document.getElementById('appShell').classList.remove('visible');
     document.getElementById('loginScreen').style.display = 'flex';
     allBookings = [];
@@ -73,21 +174,35 @@ function showApp(user) {
 /* ── Fetch & Render ─────────────────────────────────────────────────────── */
 async function fetchBookings() {
   showLoading(true);
-  const { data, error } = await supabase
-    .from('bookings')
-    .select('*')
-    .order('created_at', { ascending: false });
 
-  if (error) {
-    console.error('Fetch error:', error);
+  try {
+    const { data, error } = await supabase
+      .from('bookings')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Fetch error:', error);
+      allBookings = [];
+      renderStats();
+      renderTable();
+      showLoading(false);
+      showToast('⚠️ Booking data is unavailable right now');
+      return;
+    }
+
+    allBookings = data || [];
+    renderStats();
+    renderTable();
     showLoading(false);
-    return;
+  } catch (error) {
+    console.error('Bookings fetch failed:', error);
+    allBookings = [];
+    renderStats();
+    renderTable();
+    showLoading(false);
+    showToast('⚠️ Booking data is unavailable right now');
   }
-
-  allBookings = data || [];
-  renderStats();
-  renderTable();
-  showLoading(false);
 }
 
 function renderStats() {
@@ -102,6 +217,35 @@ function renderStats() {
   setEl('statPending',   pending);
   setEl('statConfirmed', confirmed);
   setEl('statRevenue',   `$${revenue.toLocaleString()}`);
+}
+
+function initManagementPanels() {
+  renderPaymentModule();
+}
+
+function renderPaymentModule() {
+  const tbody = document.getElementById('paymentsBody');
+  if (!tbody) return;
+
+  const filtered = demoPayments.filter(payment => {
+    if (!searchQuery) return true;
+    return `${payment.guest} ${payment.method} ${payment.status}`.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
+  tbody.innerHTML = filtered.length
+    ? filtered.map(payment => `
+        <tr>
+          <td>${payment.guest}</td>
+          <td>${payment.method}</td>
+          <td><strong>${payment.amount}</strong></td>
+          <td><span class="mini-status ${payment.status.toLowerCase().replace(/\s+/g, '-')}">${payment.status}</span></td>
+        </tr>
+      `).join('')
+    : `
+      <tr>
+        <td colspan="4" style="text-align:center; color: var(--text-muted); padding: 24px 16px;">No payment records found.</td>
+      </tr>
+    `;
 }
 
 function renderTable() {
@@ -189,9 +333,13 @@ function subscribeRealtime() {
 
 /* ── Controls ────────────────────────────────────────────────────────────── */
 function initSearch() {
-  document.getElementById('searchInput').addEventListener('input', (e) => {
+  const searchField = document.getElementById('searchInput');
+  if (!searchField) return;
+
+  searchField.addEventListener('input', (e) => {
     searchQuery = e.target.value.trim();
     renderTable();
+    renderPaymentModule();
   });
 }
 
