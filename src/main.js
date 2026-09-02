@@ -596,7 +596,7 @@ function submitEmailInquiry() {
     'Please confirm availability.'
   ].join('\n');
 
-  window.location.href = `mailto:info@kyamburesort.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = `mailto:geraldvaros@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   showBookingSuccess();
 }
 
@@ -660,7 +660,7 @@ function submitWhatsAppInquiry() {
     `*Estimated Total:* $${totalCost} USD%0A%0A` +
     `Please confirm availability!`;
 
-  window.open(`https://wa.me/256770000000?text=${message}`, '_blank');
+  window.open(`https://wa.me/256772676944?text=${message}`, '_blank');
 }
 
 /* -------------------------------------------------------------------------- */
