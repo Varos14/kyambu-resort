@@ -1583,6 +1583,35 @@ h1, h2, h3, h4 {
   margin-bottom: 2rem;
 }
 
+.reservation-contacts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 1rem;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid var(--color-gold);
+  background: rgba(221, 168, 83, 0.1);
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.reservation-contacts span {
+  color: var(--color-emerald);
+  font-weight: 700;
+}
+
+.reservation-contacts a {
+  color: var(--color-emerald);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.reservation-contacts a:hover {
+  color: var(--color-gold-dark);
+  text-decoration: underline;
+}
+
 /* ============================================================
    BOOKING MODAL
    ============================================================ */

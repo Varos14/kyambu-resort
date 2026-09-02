@@ -429,7 +429,7 @@ function initBookingEngine() {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       if (!validateBookingForm()) return;
-      showBookingSuccess();
+      submitEmailInquiry();
     });
   }
 
@@ -565,6 +565,39 @@ function animatePriceUpdate() {
   totalRow.classList.remove('updated');
   void totalRow.offsetWidth;
   totalRow.classList.add('updated');
+}
+
+function submitEmailInquiry() {
+  const name = document.getElementById('modalFullName').value;
+  const email = document.getElementById('modalEmail').value;
+  const phone = document.getElementById('modalPhone').value;
+  const suiteKey = document.getElementById('modalSuite').value;
+  const checkIn = document.getElementById('modalCheckIn').value;
+  const checkOut = document.getElementById('modalCheckOut').value;
+  const guests = document.getElementById('modalGuests').value;
+  const expKey = document.getElementById('modalExcursion').value;
+  const { nights, totalCost } = calculatePrice();
+  const suiteName = ROOM_PRICES[suiteKey]?.name || '';
+  const expName = EXCURSION_PRICES[expKey]?.name || '';
+  const subject = `Reservation inquiry from ${name}`;
+  const body = [
+    'Hello Kyambu Resort,',
+    '',
+    'I would like to inquire about a booking reservation.',
+    `Guest Name: ${name}`,
+    `Email: ${email}`,
+    `Phone/WhatsApp: ${phone}`,
+    `Suite: ${suiteName}`,
+    `Dates: ${checkIn} to ${checkOut} (${nights} nights)`,
+    `Guests: ${guests}`,
+    `Add-On Excursion: ${expName}`,
+    `Estimated Total: $${totalCost} USD`,
+    '',
+    'Please confirm availability.'
+  ].join('\n');
+
+  window.location.href = `mailto:info@kyamburesort.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  showBookingSuccess();
 }
 
 function calculatePrice() {
