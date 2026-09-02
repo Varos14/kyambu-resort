@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAmbientAudio();
   initMenuTabs();
   initBookingEngine();
+  initBookingWizard();
   initRoomModals();
   initExcursionModals();
   initHeroSearch();
@@ -511,6 +512,7 @@ function resetBookingForm() {
   const form = document.getElementById('bookingForm');
   if (success) success.classList.remove('show');
   if (form) form.style.display = '';
+  if (renderBookingStep) renderBookingStep(1);
 
   // Clear validation state
   document.querySelectorAll('#bookingForm .invalid').forEach(el => el.classList.remove('invalid'));
@@ -558,6 +560,96 @@ async function showBookingSuccess() {
 }
 
 let prevTotal = 0;
+
+let currentBookingStep = 1;
+let renderBookingStep = null;
+
+function initBookingWizard() {
+  const form = document.getElementById('bookingForm');
+  if (!form) return;
+
+  const stayHeading = form.querySelector('.booking-section-heading:not(.details-heading):not(.guest-heading)');
+  const detailsHeading = form.querySelector('.details-heading');
+  const reviewHeading = form.querySelector('.guest-heading');
+  const estimate = form.querySelector('.price-calculator-box');
+  const note = form.querySelector('.booking-note');
+  const actions = form.querySelector('.modal-actions');
+  const stepActions = form.querySelectorAll('.booking-wizard-actions');
+  const steps = document.querySelectorAll('.booking-step');
+
+  renderBookingStep = step => {
+    currentBookingStep = step;
+    form.querySelectorAll('[data-booking-step]').forEach(field => {
+      field.style.display = field.dataset.bookingStep === String(step) ? '' : 'none';
+    });
+    if (stayHeading) stayHeading.style.display = step === 1 ? '' : 'none';
+    if (detailsHeading) detailsHeading.style.display = step === 2 ? '' : 'none';
+    if (reviewHeading) reviewHeading.style.display = step === 3 ? '' : 'none';
+    if (estimate) estimate.style.display = step === 3 ? '' : 'none';
+    if (note) note.style.display = step === 3 ? '' : 'none';
+    if (actions) actions.style.display = step === 3 ? '' : 'none';
+    stepActions.forEach(action => {
+      action.style.display = action.dataset.wizardStep === String(step) ? '' : 'none';
+    });
+    steps.forEach((stepEl, index) => stepEl.classList.toggle('active', index === step - 1));
+  };
+
+  document.getElementById('bookingNextToDetails')?.addEventListener('click', () => {
+    if (validateBookingStep(1)) renderBookingStep(2);
+  });
+  document.getElementById('bookingBackToStay')?.addEventListener('click', () => renderBookingStep(1));
+  document.getElementById('bookingNextToReview')?.addEventListener('click', () => {
+    if (validateBookingStep(2)) {
+      calculatePrice();
+      renderBookingStep(3);
+    }
+  });
+
+  renderBookingStep(1);
+}
+
+function validateBookingStep(step) {
+  const fields = step === 1
+    ? [
+      ['modalSuite', null, null],
+      ['modalCheckIn', 'errCheckIn', 'Please select a check-in date.'],
+      ['modalCheckOut', 'errCheckOut', 'Please select a check-out date.'],
+      ['modalGuests', null, null],
+      ['modalExcursion', null, null]
+    ]
+    : [
+      ['modalFullName', 'errName', 'Please enter your full name.'],
+      ['modalEmail', 'errEmail', 'Please enter a valid email address.'],
+      ['modalPhone', 'errPhone', 'Please enter your phone number.']
+    ];
+  let valid = true;
+
+  fields.forEach(([id, errorId, message]) => {
+    const field = document.getElementById(id);
+    const error = errorId ? document.getElementById(errorId) : null;
+    if (!field) return;
+    const invalid = !field.value.trim() || (id === 'modalEmail' && !field.validity.valid);
+    field.classList.toggle('invalid', invalid);
+    if (error) {
+      error.textContent = message;
+      error.classList.toggle('show', invalid);
+    }
+    if (invalid) valid = false;
+  });
+
+  const checkIn = document.getElementById('modalCheckIn')?.value;
+  const checkOut = document.getElementById('modalCheckOut')?.value;
+  if (step === 1 && checkIn && checkOut && new Date(checkOut) <= new Date(checkIn)) {
+    const checkOutField = document.getElementById('modalCheckOut');
+    const error = document.getElementById('errCheckOut');
+    checkOutField.classList.add('invalid');
+    error.textContent = 'Check-out must be after check-in.';
+    error.classList.add('show');
+    valid = false;
+  }
+  return valid;
+}
+
 function animatePriceUpdate() {
   calculatePrice();
   const totalEl = document.getElementById('calcTotalCost');

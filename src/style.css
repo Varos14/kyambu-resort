@@ -2017,6 +2017,24 @@ h1, h2, h3, h4 {
   text-align: center;
 }
 
+.booking-wizard-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: -0.25rem 0 1.5rem;
+}
+
+.booking-wizard-actions > span {
+  color: var(--color-text-muted);
+  font-size: 0.78rem;
+}
+
+.booking-wizard-actions .btn {
+  min-height: 2.85rem;
+  white-space: nowrap;
+}
+
 /* Price count-up flash */
 @keyframes pricePop {
   0% { color: var(--color-emerald); }

@@ -1005,25 +1005,25 @@
           <div><h3>Stay details</h3><p>Choose your dates and the suite or villa you would like to reserve.</p></div>
         </div>
         <div class="form-grid">
-          <div class="form-group">
+          <div class="form-group" data-booking-step="2">
             <label for="modalFullName">Full Name *</label>
             <input type="text" id="modalFullName" placeholder="e.g. Sarah Jenkins" required />
             <span class="field-error" id="errName"></span>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" data-booking-step="2">
             <label for="modalEmail">Email Address *</label>
             <input type="email" id="modalEmail" placeholder="sarah@example.com" required />
             <span class="field-error" id="errEmail"></span>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" data-booking-step="2">
             <label for="modalPhone">WhatsApp / Phone *</label>
             <input type="tel" id="modalPhone" placeholder="+256 700 000 000" required />
             <span class="field-error" id="errPhone"></span>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" data-booking-step="1">
             <label for="modalSuite">Room or villa</label>
             <select id="modalSuite">
               <option value="cottage" data-price="180">Luxury Canopy Cottage ($180/night)</option>
@@ -1032,19 +1032,19 @@
             </select>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" data-booking-step="1">
             <label for="modalCheckIn">Check-In Date *</label>
             <input type="date" id="modalCheckIn" required />
             <span class="field-error" id="errCheckIn"></span>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" data-booking-step="1">
             <label for="modalCheckOut">Check-Out Date *</label>
             <input type="date" id="modalCheckOut" required />
             <span class="field-error" id="errCheckOut"></span>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" data-booking-step="1">
             <label for="modalGuests">Guests</label>
             <select id="modalGuests">
               <option value="1">1 Guest</option>
@@ -1054,7 +1054,7 @@
             </select>
           </div>
 
-          <div class="form-group">
+          <div class="form-group" data-booking-step="1">
             <label for="modalExcursion">Add an experience <span class="optional-label">optional</span></label>
             <select id="modalExcursion">
               <option value="none" data-price="0">No excursion add-on</option>
@@ -1067,6 +1067,21 @@
                 (+$140/guest)</option>
             </select>
           </div>
+        </div>
+
+        <div class="booking-section-heading details-heading">
+          <span class="booking-section-number">02</span>
+          <div><h3>Guest details</h3><p>We will use these details to confirm your reservation.</p></div>
+        </div>
+
+        <div class="booking-wizard-actions" data-wizard-step="1">
+          <span>Choose your room and dates first</span>
+          <button type="button" class="btn btn-primary" id="bookingNextToDetails">Continue to guest details</button>
+        </div>
+
+        <div class="booking-wizard-actions" data-wizard-step="2">
+          <button type="button" class="btn btn-outline" id="bookingBackToStay">Back</button>
+          <button type="button" class="btn btn-primary" id="bookingNextToReview">Review reservation</button>
         </div>
 
         <div class="booking-section-heading guest-heading">
