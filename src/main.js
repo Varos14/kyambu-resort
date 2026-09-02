@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFavourites();
   initCocoaBlender();
   initGearModal();
+  if (window.location.hash === '#booking') openBookingModal();
 });
 
 /* -------------------------------------------------------------------------- */
