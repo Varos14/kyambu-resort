@@ -168,6 +168,38 @@ body {
   text-align: center;
 }
 
+.standalone-video {
+  margin-top: 4rem;
+  padding: 2rem;
+  background: var(--color-emerald-dark);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+.video-heading {
+  max-width: 620px;
+  margin-bottom: 1.5rem;
+}
+
+.video-heading .section-title {
+  margin-bottom: 0.5rem;
+  color: var(--color-white);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+}
+
+.video-heading p {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.standalone-video video {
+  display: block;
+  width: 100%;
+  max-height: 620px;
+  border-radius: var(--radius-sm);
+  background: #000;
+  object-fit: cover;
+}
+
 .location-layout {
   display: grid;
   grid-template-columns: 0.8fr 1.2fr;
@@ -198,6 +230,10 @@ body {
 
   .standalone-feature img {
     min-height: 300px;
+  }
+
+  .standalone-video {
+    padding: 1.25rem;
   }
 }
 
