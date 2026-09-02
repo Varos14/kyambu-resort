@@ -595,7 +595,7 @@ async function showBookingSuccess() {
       <strong>Suite:</strong> ${suiteName}<br/>
       <strong>Dates:</strong> ${checkIn} → ${checkOut} (${nights} night${nights > 1 ? 's' : ''})<br/>
       <strong>Guests:</strong> ${guests}<br/>
-      <strong>Estimated Total:</strong> <span style="color:var(--color-gold);font-weight:700;">$${totalCost} USD</span>
+      <strong>Estimated Total:</strong> <span class="summary-total">$${totalCost} USD</span>
     `;
   }
 
