@@ -647,20 +647,23 @@ function submitWhatsAppInquiry() {
   const suiteName = ROOM_PRICES[suiteKey]?.name;
   const expName = EXCURSION_PRICES[expKey]?.name;
 
-  const message =
-    `Hello Kyambu Resort! 🌿%0A` +
-    `I would like to inquire about a booking reservation:%0A%0A` +
-    `*Guest Name:* ${encodeURIComponent(name)}%0A` +
-    `*Phone/WhatsApp:* ${encodeURIComponent(phone)}%0A` +
-    `*Email:* ${encodeURIComponent(email)}%0A` +
-    `*Suite:* ${encodeURIComponent(suiteName)}%0A` +
-    `*Dates:* ${checkIn} to ${checkOut} (${nights} nights)%0A` +
-    `*Guests:* ${guests} guest(s)%0A` +
-    `*Add-On Excursion:* ${encodeURIComponent(expName)}%0A` +
-    `*Estimated Total:* $${totalCost} USD%0A%0A` +
-    `Please confirm availability!`;
+  const message = [
+    'Hello Kyambu Resort!',
+    'I would like to inquire about a booking reservation:',
+    '',
+    `Guest Name: ${name}`,
+    `Phone/WhatsApp: ${phone}`,
+    `Email: ${email}`,
+    `Suite: ${suiteName}`,
+    `Dates: ${checkIn} to ${checkOut} (${nights} nights)`,
+    `Guests: ${guests} guest(s)`,
+    `Add-On Excursion: ${expName}`,
+    `Estimated Total: $${totalCost} USD`,
+    '',
+    'Please confirm availability!'
+  ].join('\n');
 
-  window.open(`https://wa.me/256772676944?text=${message}`, '_blank');
+  window.open(`https://api.whatsapp.com/send?phone=256772676944&text=${encodeURIComponent(message)}`, '_blank');
 }
 
 /* -------------------------------------------------------------------------- */
