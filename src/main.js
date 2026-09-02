@@ -448,9 +448,30 @@ function initBookingEngine() {
 function openBookingModal(roomKey = null) {
   const bookingModal = document.getElementById('bookingModal');
   if (roomKey) document.getElementById('modalSuite').value = roomKey;
+  setBookingDateDefaults();
   resetBookingForm();
   calculatePrice();
   bookingModal.classList.add('active');
+}
+
+function setBookingDateDefaults() {
+  const checkInEl = document.getElementById('modalCheckIn');
+  const checkOutEl = document.getElementById('modalCheckOut');
+  if (!checkInEl || !checkOutEl) return;
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const iso = (date) => date.toISOString().split('T')[0];
+  const minCheckIn = iso(today);
+  const minCheckOut = iso(new Date(today.getTime() + 86400000));
+
+  checkInEl.min = minCheckIn;
+  checkOutEl.min = minCheckOut;
+
+  if (!checkInEl.value) checkInEl.value = minCheckIn;
+  if (!checkOutEl.value || new Date(checkOutEl.value) <= new Date(checkInEl.value)) {
+    checkOutEl.value = minCheckOut;
+  }
 }
 
 function syncCheckOutMin() {
@@ -464,10 +485,37 @@ function syncCheckOutMin() {
   const fmt = d => d.toISOString().split('T')[0];
   outEl.min = fmt(nextDay);
 
-  if (outEl.value && new Date(outEl.value) <= inDate) {
+  if (!outEl.value || new Date(outEl.value) <= inDate) {
     outEl.value = fmt(nextDay);
   }
   calculatePrice();
+}
+
+function validateBookingField(id, errId, message) {
+  const field = document.getElementById(id);
+  const errEl = errId ? document.getElementById(errId) : null;
+  if (!field) return true;
+
+  let invalid = false;
+  const value = field.value.trim();
+
+  if (id === 'modalFullName') {
+    invalid = value.length < 2;
+  } else if (id === 'modalEmail') {
+    invalid = !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  } else if (id === 'modalPhone') {
+    invalid = !/^\+?[0-9\s\-()]{7,}$/.test(value) || value.replace(/\D/g, '').length < 7;
+  } else if (id === 'modalCheckIn' || id === 'modalCheckOut') {
+    invalid = !value;
+  }
+
+  field.classList.toggle('invalid', invalid);
+  if (errEl) {
+    errEl.textContent = invalid ? message : '';
+    errEl.classList.toggle('show', invalid);
+  }
+
+  return !invalid;
 }
 
 function validateBookingForm() {
@@ -476,30 +524,26 @@ function validateBookingForm() {
   const fields = [
     { id: 'modalFullName', errId: 'errName', msg: 'Please enter your full name.' },
     { id: 'modalEmail', errId: 'errEmail', msg: 'Please enter a valid email address.' },
-    { id: 'modalPhone', errId: 'errPhone', msg: 'Please enter your phone number.' },
+    { id: 'modalPhone', errId: 'errPhone', msg: 'Please enter a valid WhatsApp or phone number.' },
     { id: 'modalCheckIn', errId: 'errCheckIn', msg: 'Please select a check-in date.' },
     { id: 'modalCheckOut', errId: 'errCheckOut', msg: 'Please select a check-out date.' },
   ];
 
   fields.forEach(({ id, errId, msg }) => {
-    const el = document.getElementById(id);
-    const errEl = document.getElementById(errId);
-    if (el && errEl) {
-      const isEmpty = !el.value.trim();
-      el.classList.toggle('invalid', isEmpty);
-      errEl.textContent = msg;
-      errEl.classList.toggle('show', isEmpty);
-      if (isEmpty) valid = false;
-    }
+    if (!validateBookingField(id, errId, msg)) valid = false;
   });
 
-  // Check out must be after check-in
-  const inVal = document.getElementById('modalCheckIn').value;
-  const outVal = document.getElementById('modalCheckOut').value;
+  const inVal = document.getElementById('modalCheckIn')?.value;
+  const outVal = document.getElementById('modalCheckOut')?.value;
   const outErrEl = document.getElementById('errCheckOut');
+  const outField = document.getElementById('modalCheckOut');
+
   if (inVal && outVal && new Date(outVal) <= new Date(inVal)) {
-    document.getElementById('modalCheckOut').classList.add('invalid');
-    if (outErrEl) { outErrEl.textContent = 'Check-out must be after check-in.'; outErrEl.classList.add('show'); }
+    if (outField) outField.classList.add('invalid');
+    if (outErrEl) {
+      outErrEl.textContent = 'Check-out must be after check-in.';
+      outErrEl.classList.add('show');
+    }
     valid = false;
   }
 
@@ -609,44 +653,44 @@ function initBookingWizard() {
 }
 
 function validateBookingStep(step) {
-  const fields = step === 1
-    ? [
-      ['modalSuite', null, null],
-      ['modalCheckIn', 'errCheckIn', 'Please select a check-in date.'],
-      ['modalCheckOut', 'errCheckOut', 'Please select a check-out date.'],
-      ['modalGuests', null, null],
-      ['modalExcursion', null, null]
-    ]
-    : [
-      ['modalFullName', 'errName', 'Please enter your full name.'],
-      ['modalEmail', 'errEmail', 'Please enter a valid email address.'],
-      ['modalPhone', 'errPhone', 'Please enter your phone number.']
-    ];
   let valid = true;
 
-  fields.forEach(([id, errorId, message]) => {
-    const field = document.getElementById(id);
-    const error = errorId ? document.getElementById(errorId) : null;
-    if (!field) return;
-    const invalid = !field.value.trim() || (id === 'modalEmail' && !field.validity.valid);
-    field.classList.toggle('invalid', invalid);
-    if (error) {
-      error.textContent = message;
-      error.classList.toggle('show', invalid);
+  if (step === 1) {
+    const dateFields = [
+      ['modalCheckIn', 'errCheckIn', 'Please select a check-in date.'],
+      ['modalCheckOut', 'errCheckOut', 'Please select a check-out date.']
+    ];
+
+    dateFields.forEach(([id, errorId, message]) => {
+      if (!validateBookingField(id, errorId, message)) valid = false;
+    });
+
+    const checkIn = document.getElementById('modalCheckIn')?.value;
+    const checkOut = document.getElementById('modalCheckOut')?.value;
+    if (checkIn && checkOut && new Date(checkOut) <= new Date(checkIn)) {
+      const checkOutField = document.getElementById('modalCheckOut');
+      const error = document.getElementById('errCheckOut');
+      if (checkOutField) checkOutField.classList.add('invalid');
+      if (error) {
+        error.textContent = 'Check-out must be after check-in.';
+        error.classList.add('show');
+      }
+      valid = false;
     }
-    if (invalid) valid = false;
+
+    return valid;
+  }
+
+  const fields = [
+    ['modalFullName', 'errName', 'Please enter your full name.'],
+    ['modalEmail', 'errEmail', 'Please enter a valid email address.'],
+    ['modalPhone', 'errPhone', 'Please enter a valid WhatsApp or phone number.']
+  ];
+
+  fields.forEach(([id, errorId, message]) => {
+    if (!validateBookingField(id, errorId, message)) valid = false;
   });
 
-  const checkIn = document.getElementById('modalCheckIn')?.value;
-  const checkOut = document.getElementById('modalCheckOut')?.value;
-  if (step === 1 && checkIn && checkOut && new Date(checkOut) <= new Date(checkIn)) {
-    const checkOutField = document.getElementById('modalCheckOut');
-    const error = document.getElementById('errCheckOut');
-    checkOutField.classList.add('invalid');
-    error.textContent = 'Check-out must be after check-in.';
-    error.classList.add('show');
-    valid = false;
-  }
   return valid;
 }
 
