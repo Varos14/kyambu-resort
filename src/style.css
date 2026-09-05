@@ -63,6 +63,12 @@ body {
   padding: 6rem 2rem 7rem;
 }
 
+.room-card.unavailable { opacity: 0.62; }
+.room-card.unavailable .room-card-img { filter: grayscale(0.65); }
+.room-availability-status { display: block; flex-basis: 100%; color: var(--color-gold); font-size: 0.75rem; font-weight: 700; margin-bottom: 0.65rem; }
+.room-quick-view.disabled { pointer-events: none; }
+.unavailable-action { opacity: 0.55; }
+
 .standalone-hero {
   max-width: 760px;
   margin: 0 auto 4rem;

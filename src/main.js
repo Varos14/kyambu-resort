@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initAmbientAudio();
   initMenuTabs();
   initBookingEngine();
+  initAvailability();
   initBookingWizard();
   initRoomModals();
   initExcursionModals();
@@ -33,12 +34,12 @@ function setDefaultDates() {
 
   const fmt = d => d.toISOString().split('T')[0];
 
-  ['heroCheckIn', 'modalCheckIn'].forEach(id => {
+  ['heroCheckIn'].forEach(id => {
     const el = document.getElementById(id);
     if (el) { el.min = fmt(today); el.value = fmt(today); }
   });
 
-  ['heroCheckOut', 'modalCheckOut'].forEach(id => {
+  ['heroCheckOut'].forEach(id => {
     const el = document.getElementById(id);
     if (el) {
       const minD = new Date(today);
@@ -379,6 +380,66 @@ const EXCURSION_PRICES = {
   ultimate: { name: 'Ultimate Explorer Pass (All Excursions)', price: 140 }
 };
 
+const availabilityState = {
+  rooms: new Set(Object.keys(ROOM_PRICES)),
+  activities: new Set(Object.keys(EXCURSION_PRICES))
+};
+
+async function initAvailability() {
+  const { data, error } = await supabase
+    .from('availability')
+    .select('option_key, option_type, display_name, is_available');
+
+  if (error || !data) return;
+
+  availabilityState.rooms = new Set(data.filter(option => option.option_type === 'room' && option.is_available).map(option => option.option_key));
+  availabilityState.activities = new Set(data.filter(option => option.option_type === 'activity' && option.is_available).map(option => option.option_key));
+  applyAvailabilityToPage(data);
+}
+
+function isRoomAvailable(roomKey) {
+  return availabilityState.rooms.has(roomKey);
+}
+
+function isActivityAvailable(activityKey) {
+  return activityKey === 'none' || availabilityState.activities.has(activityKey);
+}
+
+function applyAvailabilityToPage(options) {
+  const optionByKey = new Map(options.map(option => [option.option_key, option]));
+
+  document.querySelectorAll('#heroSuiteType option, #modalSuite option, #modalExcursion option').forEach(optionEl => {
+    const option = optionByKey.get(optionEl.value);
+    if (!option || option.option_key === 'none') return;
+    optionEl.dataset.defaultLabel ||= optionEl.textContent;
+    const available = option.is_available;
+    optionEl.disabled = !available;
+    optionEl.textContent = available ? optionEl.dataset.defaultLabel : `${optionEl.dataset.defaultLabel} (Booked out)`;
+  });
+
+  document.querySelectorAll('.room-card[data-room-id]').forEach(card => {
+    const available = isRoomAvailable(card.dataset.roomId);
+    card.classList.toggle('unavailable', !available);
+    card.querySelectorAll('.view-room-btn').forEach(button => { button.disabled = !available; });
+    card.querySelectorAll('.room-quick-view').forEach(button => { button.classList.toggle('disabled', !available); });
+    let status = card.querySelector('.room-availability-status');
+    if (!available && !status) {
+      status = document.createElement('span');
+      status.className = 'room-availability-status';
+      status.textContent = 'Currently booked out';
+      card.querySelector('.room-card-footer')?.prepend(status);
+    }
+    if (status) status.hidden = available;
+  });
+
+  document.querySelectorAll('.open-exp-modal[data-exp]').forEach(button => {
+    const available = isActivityAvailable(button.dataset.exp);
+    button.disabled = !available;
+    button.classList.toggle('unavailable-action', !available);
+    if (!available) button.textContent = `${button.textContent.replace(/ \(Booked out\)$/, '')} (Booked out)`;
+  });
+}
+
 function initBookingEngine() {
   const bookingModal = document.getElementById('bookingModal');
   const closeBtn = document.getElementById('closeBookingModal');
@@ -452,9 +513,9 @@ function initBookingEngine() {
 
 function openBookingModal(roomKey = null) {
   const bookingModal = document.getElementById('bookingModal');
-  if (roomKey) document.getElementById('modalSuite').value = roomKey;
-  setBookingDateDefaults();
   resetBookingForm();
+  setBookingDateDefaults();
+  if (roomKey && isRoomAvailable(roomKey)) document.getElementById('modalSuite').value = roomKey;
   calculatePrice();
   bookingModal.classList.add('active');
 }
@@ -473,10 +534,6 @@ function setBookingDateDefaults() {
   checkInEl.min = minCheckIn;
   checkOutEl.min = minCheckOut;
 
-  if (!checkInEl.value) checkInEl.value = minCheckIn;
-  if (!checkOutEl.value || new Date(checkOutEl.value) <= new Date(checkInEl.value)) {
-    checkOutEl.value = minCheckOut;
-  }
 }
 
 function syncCheckOutMin() {
@@ -534,6 +591,16 @@ function validateBookingForm() {
     { id: 'modalCheckOut', errId: 'errCheckOut', msg: 'Please select a check-out date.' },
   ];
 
+  if (!document.getElementById('modalSuite')?.value) {
+    document.getElementById('modalSuite')?.classList.add('invalid');
+    valid = false;
+  }
+
+  if (!document.getElementById('modalGuests')?.value) {
+    document.getElementById('modalGuests')?.classList.add('invalid');
+    valid = false;
+  }
+
   fields.forEach(({ id, errId, msg }) => {
     if (!validateBookingField(id, errId, msg)) valid = false;
   });
@@ -561,6 +628,7 @@ function resetBookingForm() {
   const form = document.getElementById('bookingForm');
   if (success) success.classList.remove('show');
   if (form) form.style.display = '';
+  if (form) form.reset();
   if (renderBookingStep) renderBookingStep(1);
 
   // Clear validation state
@@ -915,6 +983,7 @@ function initRoomModals() {
   let currentSelectedRoom = 'cottage';
 
   function openRoomModal(roomKey) {
+    if (!isRoomAvailable(roomKey)) return;
     const details = ROOM_DETAILS[roomKey];
     if (!details) return;
     currentSelectedRoom = roomKey;
@@ -1089,6 +1158,7 @@ function initExcursionModals() {
   document.querySelectorAll('.open-exp-modal').forEach(btn => {
     btn.addEventListener('click', () => {
       const expKey = btn.dataset.exp;
+      if (!isActivityAvailable(expKey)) return;
       currentExpKey = expKey;
       const data = EXCURSION_DETAILS[expKey];
       if (!data) return;
@@ -1125,6 +1195,7 @@ function initExcursionModals() {
     bookBtn.addEventListener('click', () => {
       modal.classList.remove('active');
       const data = EXCURSION_DETAILS[currentExpKey];
+      if (!isActivityAvailable(data?.bookingKey)) return;
       const bookingModal = document.getElementById('bookingModal');
       const expSelect = document.getElementById('modalExcursion');
       if (expSelect && data) expSelect.value = data.bookingKey;

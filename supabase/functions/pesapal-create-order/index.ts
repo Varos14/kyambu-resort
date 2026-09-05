@@ -115,6 +115,20 @@ Deno.serve(async (request) => {
       booking = inserted.data;
     }
 
+    const requestedOptions = [String(booking.suite)];
+    if (booking.excursion && booking.excursion !== 'none') requestedOptions.push(String(booking.excursion));
+    const { data: availableOptions, error: availabilityError } = await admin
+      .from('availability')
+      .select('option_key, is_available')
+      .in('option_key', requestedOptions);
+    if (availabilityError) throw new Error('Availability settings could not be checked');
+
+    const unavailable = new Set(
+      (availableOptions || []).filter(option => !option.is_available).map(option => option.option_key)
+    );
+    if (unavailable.has(String(booking.suite))) throw new Error('The selected room is currently unavailable');
+    if (booking.excursion && unavailable.has(String(booking.excursion))) throw new Error('The selected activity is currently unavailable');
+
     const { nights, totalUsd, amountUgx } = calculatePricing(booking);
     await admin.from('bookings').update({ nights, total_cost: totalUsd }).eq('id', booking.id);
     const merchantReference = `KYAMBU-${booking.id}-${crypto.randomUUID().slice(0, 8)}`;

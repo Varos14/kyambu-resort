@@ -109,6 +109,18 @@ html, body { height: 100%; background: var(--bg-base); color: var(--text-primary
 }
 .panel.full-panel { margin-bottom: 22px; }
 .payment-panel { margin-top: 20px; }
+.availability-panel { margin-top: 20px; }
+.availability-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.availability-group-title { color: var(--text-muted); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+.availability-list { display: grid; gap: 8px; }
+.availability-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 14px; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); }
+.availability-control { display: inline-flex; align-items: center; gap: 10px; }
+.availability-state { font-size: 11px; font-weight: 700; }
+.availability-state.is-available { color: var(--green); }
+.availability-state.is-unavailable { color: var(--red); }
+.availability-row input { width: 17px; height: 17px; accent-color: var(--green); cursor: pointer; }
+.availability-error { color: var(--red); font-size: 12px; margin-top: 12px; }
+.availability-empty { color: var(--text-muted); font-size: 13px; }
 .panel-header {
   display: flex; align-items: center; justify-content: space-between; gap: 10px;
   margin-bottom: 16px; font-weight: 700; color: var(--text-primary);

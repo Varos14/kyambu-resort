@@ -9,6 +9,7 @@ let allBookings   = [];
 let filterStatus  = 'all';
 let searchQuery   = '';
 let realtimeSub   = null;
+let availability  = [];
 
 const demoPayments = [
   { guest: 'Aisha Nakato', method: 'Card', amount: '$540', status: 'Paid' },
@@ -168,8 +169,63 @@ function showApp(user) {
   document.getElementById('appShell').classList.add('visible');
   document.getElementById('adminUserLabel').textContent = user.email;
   fetchBookings();
+  fetchAvailability();
   subscribeRealtime();
 }
+
+async function fetchAvailability() {
+  const { data, error } = await supabase
+    .from('availability')
+    .select('option_key, option_type, display_name, is_available')
+    .order('option_type')
+    .order('display_name');
+
+  if (error) {
+    document.getElementById('availabilityError').textContent = 'Availability controls are unavailable until the availability migration is applied.';
+    return;
+  }
+
+  availability = data || [];
+  renderAvailability();
+}
+
+function renderAvailability() {
+  const groups = {
+    room: document.getElementById('roomAvailabilityList'),
+    activity: document.getElementById('activityAvailabilityList')
+  };
+
+  Object.entries(groups).forEach(([type, container]) => {
+    if (!container) return;
+    const items = availability.filter(option => option.option_type === type && option.option_key !== 'none');
+    container.innerHTML = items.map(option => `
+      <label class="availability-row">
+        <span>${esc(option.display_name)}</span>
+        <span class="availability-control">
+          <span class="availability-state ${option.is_available ? 'is-available' : 'is-unavailable'}">${option.is_available ? 'Available' : 'Booked out'}</span>
+          <input type="checkbox" ${option.is_available ? 'checked' : ''} onchange="updateAvailability('${option.option_key}', this.checked)" />
+        </span>
+      </label>
+    `).join('') || '<p class="availability-empty">No options configured.</p>';
+  });
+}
+
+window.updateAvailability = async (optionKey, isAvailable) => {
+  const { error } = await supabase
+    .from('availability')
+    .update({ is_available: isAvailable, updated_at: new Date().toISOString() })
+    .eq('option_key', optionKey);
+
+  if (error) {
+    document.getElementById('availabilityError').textContent = `Could not update availability: ${error.message}`;
+    await fetchAvailability();
+    return;
+  }
+
+  const option = availability.find(item => item.option_key === optionKey);
+  if (option) option.is_available = isAvailable;
+  renderAvailability();
+};
 
 /* ── Fetch & Render ─────────────────────────────────────────────────────── */
 async function fetchBookings() {
