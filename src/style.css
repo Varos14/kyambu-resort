@@ -54,6 +54,7 @@ body {
 /* Standalone destination pages */
 .standalone-page .navbar {
   position: relative;
+  background: var(--color-emerald);
 }
 
 .standalone-content {
